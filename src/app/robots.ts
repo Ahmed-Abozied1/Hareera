@@ -1,5 +1,8 @@
 import type { MetadataRoute } from "next";
 
+const BASE_URL =
+  process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") || "https://hareera.vercel.app";
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
@@ -9,7 +12,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin", "/api/", "/profile"],
       },
     ],
-    sitemap: "https://www.ataa-aqiqa.com/sitemap.xml",
-    host: "https://www.ataa-aqiqa.com",
+    sitemap: `${BASE_URL}/sitemap.xml`,
+    host: BASE_URL,
   };
 }

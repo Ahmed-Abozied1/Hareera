@@ -41,7 +41,7 @@ export const BookingNavigation = ({
         onClick={handleNext}
         className="w-fit"
       >
-        {isSecondStep ? "تأكيد الحجز" : isLastStep ? "إتمام الحجز" : "التالي"}
+        {isSecondStep ? "تأكيد الطلب" : isLastStep ? "إتمام الطلب" : "التالي"}
       </AppButton>
     </div>
   );

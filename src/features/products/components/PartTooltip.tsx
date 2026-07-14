@@ -31,15 +31,15 @@ export default function PartTooltip({
     return (
       <div className="bg-bg border border-border rounded-xl shadow-lg p-4 w-64">
         <h4 className="text-medium-bold text-title mb-2">
-          السُبع {partName}
+          القطعة {partName}
         </h4>
 
         <div className="inline-block bg-green-100 text-green-800 text-small-medium px-2 py-1 rounded-md mb-3">
-          ✓ تم الحجز
+          ✓ تم الطلب
         </div>
 
         <p className="text-small-normal text-paragraph mb-3">
-          أدخل الاسم الذي سيظهر في فيديو التوثيق
+          أدخل الاسم الذي سيظهر على الطلب
         </p>
 
         <Input
@@ -55,11 +55,11 @@ export default function PartTooltip({
   return (
     <div className="bg-bg border border-border rounded-xl shadow-lg p-4 w-64">
       <h4 className="text-medium-bold text-title mb-2">
-        السُبع {partName}
+        القطعة {partName}
       </h4>
 
       <p className="text-small-normal text-paragraph mb-3">
-        أدخل الاسم الذي سيظهر في فيديو التوثيق
+        أدخل الاسم الذي سيظهر على الطلب
       </p>
 
       <Input
@@ -73,7 +73,7 @@ export default function PartTooltip({
         onClick={() => onSelect(partId, localName)}
         className="w-full bg-primary text-bg h-10 rounded-lg"
       >
-        اختر هذا السُبع
+        اختر هذه القطعة
       </AppButton>
     </div>
   );

@@ -14,7 +14,7 @@ export function useProducts() {
       const data = await productService.getProducts();
       const productsWithBeneficiaries = data.map(product => ({
         ...product,
-        beneficiaries: product.category === "كبش" ? 1 : 7
+        beneficiaries: product.category === "بيجامات وأطقم نوم" ? 1 : 7
       }));
       setProducts(productsWithBeneficiaries);
     } catch (err) {

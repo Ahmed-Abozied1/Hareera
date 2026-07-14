@@ -71,8 +71,8 @@ export const SelectPart = ({
   return (
     <div dir="rtl">
       <ModalHeader
-        title="حدد السُبع"
-        description="حدد سُبع أضحيتك المناسب لك واستكمل طلبك بكل سهولة."
+        title="اختاري القطعة"
+        description="اختاري القطعة المناسبة لك واستكملي طلبك بكل سهولة."
       />
  {loadingParts ? (
   <div className=" flex justify-center items-center mt-8">

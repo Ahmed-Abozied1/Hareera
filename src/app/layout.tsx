@@ -37,55 +37,55 @@ const sstArabic = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.ataa-aqiqa.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://hareera.vercel.app"),
   title: {
-    default: "Hareera | أضاحي وعقيقة موثوقة في أفريقيا ومصر",
+    default: "Hareera حريرة | ملابس نوم وبيتي حريمي - بيجامات وأطقم ساتان",
     template: "%s | Hareera",
   },
   description:
-    "Hareera تنفذ ذبائح الأضحية والعقيقة والصدقة بأسعار مناسبة داخل مصر وفي أفريقيا للمسلمين. ذبائح موثوقة وتوزيع على الفقراء مع توثيق كامل.",
+    "حريرة متجر ملابس نوم وبيتي حريمي: بيجامات، أطقم نوم ساتان، روبات، وقمصان نوم. راحتك وأناقتك أولويتنا. الدفع عند الاستلام وشحن لكل محافظات مصر مع استبدال خلال 14 يوم.",
   keywords: [
-    "أضحية",
-    "عقيقة",
-    "ذبيحة",
-    "أضاحي أفريقيا",
-    "عقيقة مصر",
-    "أضحية رخيصة",
-    "ذبح العقيقة",
-    "صدقة جارية",
+    "ملابس نوم",
+    "بيجامات حريمي",
+    "أطقم ساتان",
+    "روب",
+    "قميص نوم",
+    "ملابس بيتي",
+    "ملابس نوم حريمي",
+    "بيجامة ساتان",
+    "دفع عند الاستلام",
     "Hareera",
-    "أضاحي موثوقة",
-    "توزيع لحوم",
-    "Ataa",
+    "حريرة",
+    "ملابس بيتي حريمي",
   ],
   authors: [{ name: "Hareera" }],
   creator: "Hareera",
   publisher: "Hareera",
   alternates: {
-    canonical: "https://www.ataa-aqiqa.com",
+    canonical: process.env.NEXT_PUBLIC_APP_URL ?? "https://hareera.vercel.app",
   },
   openGraph: {
     type: "website",
     locale: "ar_EG",
-    url: "https://www.ataa-aqiqa.com",
+    url: process.env.NEXT_PUBLIC_APP_URL ?? "https://hareera.vercel.app",
     siteName: "Hareera",
-    title: "Hareera | أضاحي وعقيقة موثوقة في أفريقيا ومصر",
+    title: "Hareera حريرة | ملابس نوم وبيتي حريمي - بيجامات وأطقم ساتان",
     description:
-      "Hareera تنفذ ذبائح الأضحية والعقيقة والصدقة بأسعار مناسبة داخل مصر وفي أفريقيا للمسلمين.",
+      "حريرة متجر ملابس نوم وبيتي حريمي: بيجامات، أطقم نوم ساتان، روبات، وقمصان نوم. الدفع عند الاستلام وشحن لكل محافظات مصر.",
     images: [
       {
         url: "/images/hero-bg.webp",
         width: 1200,
         height: 630,
-        alt: "Hareera - أضاحي وعقيقة موثوقة",
+        alt: "Hareera حريرة - ملابس نوم وبيتي حريمي",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hareera | أضاحي وعقيقة موثوقة في أفريقيا ومصر",
+    title: "Hareera حريرة | ملابس نوم وبيتي حريمي - بيجامات وأطقم ساتان",
     description:
-      "Hareera تنفذ ذبائح الأضحية والعقيقة والصدقة بأسعار مناسبة داخل مصر وفي أفريقيا للمسلمين.",
+      "حريرة متجر ملابس نوم وبيتي حريمي: بيجامات، أطقم نوم ساتان، روبات، وقمصان نوم. الدفع عند الاستلام وشحن لكل محافظات مصر.",
     images: ["/images/hero-bg.webp"],
   },
   icons: {

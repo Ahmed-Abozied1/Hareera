@@ -19,9 +19,9 @@ export function Testimonials({ testimonials, loading, error, refetch }: Testimon
   return (
     <section className="py-12 md:py-24 overflow-hidden container bg-bg" id="testimonials">
       <SectionHeader
-        badge="آراء نفتخر بها"
-        title="ماذا يقول عملاؤنا"
-        description="آراء عملاؤنا الكرام حول سهولة الحجز وجودة الذبائح وخدمة التنفيذ ."
+        badge="آراء عميلاتنا"
+        title="ماذا قالت عميلاتنا"
+        description="آراء عميلاتنا الكرام حول جودة خامات حريرة وراحة قطع النوم والبيت وسرعة التوصيل ."
       />
 
       <div className="relative mt-8 md:mt-12">

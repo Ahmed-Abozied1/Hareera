@@ -5,33 +5,33 @@ import { CheckCircle2 } from "lucide-react";
 const STEPS = [
   {
     id: 1,
-    title: "إرسال الاسم ",
+    title: "اختيار المقاس ",
     description:
-      "بنحتاج من حضرتك الاسم كامل لصاحب العقيقة أو الصدقة.",
+      "اختاري المقاس المناسب لك من (S / M / L / XL) حسب جدول القياسات.",
   },
   {
     id: 2,
-    title: "توثيق الذبح",
+    title: "تأكيد الطلب",
     description:
-      "بيتم توثيق فيديو الذبح كامل باسم حضرتك وتاريخ الذبح.",
+      "أضيفي القطعة للسلة وأكدي الأوردر ببياناتك وعنوان التوصيل.",
   },
   {
     id: 3,
-    title: "توثيق التوزيع",
+    title: "الشحن والتوصيل",
     description:
-      "بيتم توثيق توزيعات الإطعامات باسم حضرتك وتاريخ الذبح.",
+      "بنشحن لكل محافظات مصر، والتوصيل من 2 لـ 5 أيام، وشحن مجاني فوق 1500 جنيه.",
   },
   {
     id: 4,
-    title: "استلام التوثيق",
+    title: "الاستلام والدفع",
     description:
-      "بنرسل لحضرتك فيديو الذبح وصور الإطعامات على رقم الواتساب.",
+      "بتستلمي طلبك وتدفعي كاش عند الاستلام، مع استبدال أو استرجاع خلال 14 يوم.",
   },
 ];
 export const ProductDocumentation = () => {
   return (
     <div className="">
-      <h3 className="heading-6-bold md:heading-5-bold text-title mb-4">طريقة التوثيق</h3>
+      <h3 className="heading-6-bold md:heading-5-bold text-title mb-4">خطوات الطلب</h3>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 p-2">
         {STEPS.map((step) => (

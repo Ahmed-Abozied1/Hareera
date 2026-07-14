@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import { unstable_cache } from "next/cache"
 
-const BASE_URL = "https://www.ataa-aqiqa.com";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://hareera.vercel.app";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const title = `${product.name} | Hareera`;
   const description = product.description
     ? product.description.slice(0, 155)
-    : `احجز ${product.name} من Hareera بسعر ${product.price} جنيه. ذبيحة موثوقة مع توثيق كامل.`;
+    : `اطلبي ${product.name} من حريرة بسعر ${product.price} جنيه. ملابس نوم وبيتي حريمي - الدفع عند الاستلام وشحن لكل محافظات مصر.`;
   const url = `${BASE_URL}/product/${encodeURIComponent(product.slug ?? product.id)}`;
   const image = product.imageUrl ?? "/images/hero-bg.webp";
 

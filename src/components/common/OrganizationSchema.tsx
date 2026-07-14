@@ -3,16 +3,19 @@ export function OrganizationSchema() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Hareera",
-    url: "https://www.ataa-aqiqa.com",
-    logo: "https://www.ataa-aqiqa.com/images/logo.svg",
+    url: process.env.NEXT_PUBLIC_APP_URL ?? "https://hareera.vercel.app",
+    logo: `${process.env.NEXT_PUBLIC_APP_URL ?? "https://hareera.vercel.app"}/images/logo.svg`,
     description:
-      "Hareera تنفذ ذبائح الأضحية والعقيقة والصدقة بأسعار مناسبة داخل مصر وفي أفريقيا للمسلمين.",
+      "حريرة متجر ملابس نوم وبيتي حريمي: بيجامات، أطقم نوم ساتان، روبات، وقمصان نوم. الدفع عند الاستلام وشحن لكل محافظات مصر مع استبدال خلال 14 يوم.",
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",
       availableLanguage: "Arabic",
     },
-    sameAs: ["https://www.facebook.com/ataaaqiqa"],
+    sameAs: [
+      "https://www.facebook.com/Hareera.YM",
+      "https://www.instagram.com/hareera.ym/",
+    ],
   };
 
   return (
