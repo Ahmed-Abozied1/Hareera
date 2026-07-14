@@ -15,11 +15,11 @@ export const NAV_LINKS = [
 export const SOCIAL_LINKS = [
   {
     icon: Facebook,
-    href: "https://www.facebook.com/",
+    href: "https://www.facebook.com/Hareera.YM",
   },
   {
     icon: Instagram,
-    href: "https://www.instagram.com/",
+    href: "https://www.instagram.com/hareera.ym/",
   },
 ];
 
