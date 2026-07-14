@@ -15,18 +15,10 @@ export const auth = betterAuth({
   },
   trustedOrigins: [
     process.env.BETTER_AUTH_URL!,
-    "https://www.ataa-aqiqa.com",
-    "https://ataa-aqiqa.com",
   ],
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
-  socialProviders: {
-    google: {
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!
-    }
-  },
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,

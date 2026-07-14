@@ -6,7 +6,6 @@ import { useResetPasswordToken } from "@/hooks/useResetPasswordToken";
 import { Menu } from "@/components/ui/icons/Menu";
 import { NavbarLogo } from "./NavbarLogo";
 import { NavLinks } from "./NavLinks";
-import { NavbarUser } from "./NavbarUser";
 import { CartIcon } from "./CartIcon";
 import { DrawerMenu } from "./DrawerMenu";
 import { AnnouncementBar } from "./AnnouncementBar";
@@ -20,7 +19,6 @@ export const NavbarContent = ({ session }: Props) => {
   const pathname = usePathname();
   const isHome = pathname === "/";
 
-  const user = session?.user || null;
   const [drawer, setDrawer] = useState(false);
   const [active, setActive] = useState("الرئيسية");
   const [scrolled, setScrolled] = useState(false);
@@ -63,11 +61,7 @@ export const NavbarContent = ({ session }: Props) => {
       }`}
     >
       <AnnouncementBar />
-      <div
-        className={`transition-all duration-300 ${
-          isHome ? (scrolled ? "bg-primary" : "bg-transparent") : "bg-primary"
-        }`}
-      >
+      <div className="bg-primary transition-all duration-300">
       <div className="container flex items-center h-20">
 
         {/* LOGO */}
@@ -90,10 +84,9 @@ export const NavbarContent = ({ session }: Props) => {
           </ul>
         </div>
 
-        {/* RIGHT (cart + user) */}
+        {/* RIGHT (cart) */}
         <div className="flex-1 flex items-center gap-1 md:gap-2 justify-end order-3 md:order-3 md:flex-none md:ml-auto">
           <CartIcon />
-          <NavbarUser user={user} />
         </div>
 
       </div>

@@ -6,8 +6,6 @@ import { AuthHeader } from "@/features/auth/components/AuthHeader";
 import { useModalStore } from "@/store/useModalStore";
 import LoginForm from "../forms/LoginForm";
 import { RegisterForm } from "../forms/RegisterForm";
-import { SocialAuth } from "./user/SocialAuth";
-import { AuthDivider } from "./user/AuthDivider";
 
 
 export const AuthModalContent = () => {
@@ -23,10 +21,8 @@ export const AuthModalContent = () => {
 
             <AuthHeader
                 title="مرحباً بك في Hareera"
-                subtitle="سجّل دخولك وابدأ خطواتك للأضحية"
+                subtitle="سجّلي دخولك لمتابعة طلباتك"
             />
-            <SocialAuth />
-            <AuthDivider />
 
             <Tabs
                 value={activeTab}
