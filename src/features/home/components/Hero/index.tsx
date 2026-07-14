@@ -5,7 +5,7 @@ import { HERO_CONTENT } from "@/features/home/constants/hero-data";
 
 export const Hero = () => {
   return (
-    <section className="w-full bg-brand-soft pt-28 md:pt-32">
+    <section className="w-full bg-brand-soft pt-28 md:pt-29">
       {/* Full-width banner (edge to edge) */}
       <div className="relative w-full overflow-hidden">
         {/* Mobile banner */}
