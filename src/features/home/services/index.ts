@@ -1,0 +1,26 @@
+// features/home/services/home.service.ts
+import { getData } from '@/lib/getData'
+import { Product, Testimonial } from '../types'
+
+interface ProductsResponse {
+  data: Product[]
+  pagination: {
+    page: number
+    limit: number
+    total: number
+    totalPages: number
+  }
+}
+
+export const homeService = {
+  async fetchProducts(category: 'PAJAMAS' | 'ROBES'): Promise<Product[]> {
+    const query = `products?category=${category}`
+    const response = await getData<ProductsResponse>(query)
+    return response?.data || []
+  },
+
+  async fetchTestimonials(): Promise<Testimonial[]> {
+    const response = await getData<Testimonial[]>('testimonials')
+    return response || []
+  },
+}
