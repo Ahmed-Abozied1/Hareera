@@ -12,7 +12,7 @@ export const FooterSocial = () => {
             key={index}
             href={item.href}
             target="_blank"
-            className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:border-secondary hover:text-secondary! transition"
+            className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:border-accent hover:text-accent! transition"
           >
             <Icon />
           </Link>

@@ -26,7 +26,7 @@ const contacts = [
         <a
           key={i}
           href={contact.href}
-          className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg text-small-medium hover:text-secondary! hover:border-secondary transition"
+          className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg text-small-medium hover:text-accent! hover:border-accent transition"
         >
           <contact.icon />
           <span >{contact.name}</span>

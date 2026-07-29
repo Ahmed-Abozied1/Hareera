@@ -11,7 +11,7 @@ export const FooterNav = () => {
       <div className="grid grid-cols-2 gap-8">
         <div className="flex flex-col gap-3">
           {FOOTER_LINK1.map((link) => (
-            <Link key={link.name} href={link.href} className="hover:text-secondary transition">
+            <Link key={link.name} href={link.href} className="hover:text-accent transition">
               {link.name}
             </Link>
           ))}
@@ -19,7 +19,7 @@ export const FooterNav = () => {
 
         <div className="flex flex-col gap-3">
           {FOOTER_LINK2.map((link) => (
-            <Link key={link.name} href={link.href} className="hover:text-secondary transition">
+            <Link key={link.name} href={link.href} className="hover:text-accent transition">
               {link.name}
             </Link>
           ))}

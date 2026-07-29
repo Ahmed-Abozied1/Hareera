@@ -12,7 +12,7 @@ export const AnnouncementBar = () => {
       <div className="animate-marquee whitespace-nowrap flex shrink-0">
         {[...strip, ...strip].map((msg, i) => (
           <span key={i} className="mx-8 text-small-medium inline-flex items-center gap-2">
-            <span className="text-secondary">◆</span>
+            <span className="text-accent">◆</span>
             {msg}
           </span>
         ))}

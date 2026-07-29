@@ -21,7 +21,7 @@ export const CarouselDots = ({ count, activeIndex, onDotClick }: CarouselDotsPro
             disabled={isDisabled}
             className={cn(
               "h-2 rounded-full transition-all duration-500",
-              isActive ? "w-8 bg-[#A2B155]" : "w-2 bg-[#D9D9D9]",
+              isActive ? "w-8 bg-accent" : "w-2 bg-[#D9D9D9]",
               isDisabled && "cursor-none opacity-50"
             )}
           />

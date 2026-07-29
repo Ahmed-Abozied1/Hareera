@@ -20,7 +20,7 @@ export const SidebarMenu = () => {
               href={item.href}
               className={cn(
                 "flex items-center gap-2 px-4 py-3 rounded-lg cursor-pointer transition-colors h-12",
-                isActive ? "bg-[#F3F8F5]" : "hover:bg-[#F3F8F5]"
+                isActive ? "bg-accent-soft" : "hover:bg-accent-soft"
               )}
             >
               <Icon

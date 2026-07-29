@@ -45,7 +45,9 @@ export const ProductGrid = ({
       <div className="container">
         {/* Section header — unified type scale */}
         <div className="text-center mb-6 md:mb-8">
-          <span className="inline-block text-sm font-bold text-secondary mb-2">{badge}</span>
+          <span className="inline-block text-sm font-bold text-accent-deep bg-accent/20 rounded-full px-4 py-1.5 mb-3">
+            {badge}
+          </span>
           <h2 className="text-2xl md:text-4xl font-bold text-title">{title}</h2>
           {description && (
             <p className="text-sm md:text-base text-paragraph mt-3 max-w-2xl mx-auto leading-relaxed">

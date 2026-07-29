@@ -5,7 +5,7 @@ import { FooterCopyright } from "./FooterCopyright"
 
 export const Footer = () => {
   return (
-    <footer className="bg-primary text-bg py-10">
+    <footer className="bg-primary text-bg py-10 border-t-4 border-accent">
       <div className="container">
         <FooterLogo />
 

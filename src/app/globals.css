@@ -4,11 +4,16 @@
 @theme {
   --font-sst: var(--font-sst), ui-sans-serif, system-ui;
 
-  /* Hareera brand palette — soft mauve from the logo, on a clean white base. */
+  /* Hareera brand palette — soft mauve from the logo, paired with a muted sage
+     as the second brand colour, on a clean white base. */
   --color-primary: #8b607d;
   --color-secondary: #b98fac;
   --color-brand: #b088a5;
   --color-brand-soft: #f3e9ef;
+  /* Sage accent: -soft for section surfaces, -deep for text/icons (AA on white) */
+  --color-accent: #9ca88f;
+  --color-accent-soft: #eff2ea;
+  --color-accent-deep: #6f7d62;
   --color-success: #1f8a3d;
   --color-error: #dc2626;
   --color-warning: #f2b705;
@@ -16,7 +21,7 @@
   --color-loading: #9a9a9a;
   --color-rating: #f4c430;
   --color-bg: #ffffff;
-  --color-card: #f6f3f1;
+  --color-card: #f4f6f1;
   --color-title: #1a1a1a;
   --color-paragraph: #5c5c5c;
   --color-disabled: #dcdcdc;
@@ -175,7 +180,7 @@ data-[state=inactive]:text-small-bold!
 md:data-[state=inactive]:text-regular-normal!
 
 data-[state=active]:bg-primary!
-md:data-[state=active]:bg-[#F3F8F5]!
+md:data-[state=active]:bg-accent-soft!
 data-[state=active]:text-small-bold!
 md:data-[state=active]:text-regular-medium!
 

@@ -57,7 +57,7 @@ export default function Home() {
       />
 
       {(productsLoading || offers.length > 0) && (
-        <div className="bg-brand-soft">
+        <div className="bg-accent-soft">
           <ProductGrid
             badge="وفّري أكتر"
             title="عروض وتخفيضات"
