@@ -95,9 +95,7 @@ export const ProductCard: FC<ProductCardProps & { list?: boolean }> = ({
           </Link>
 
           <div className="flex items-baseline gap-2">
-            <span className={cn("text-base font-bold", hasDiscount ? "text-brand-deep" : "text-title")}>
-              {price} ج.م
-            </span>
+            <span className="text-base font-bold text-brand-deep">{price} ج.م</span>
             {hasDiscount && (
               <span className="text-sm text-loading line-through">{comparePrice} ج.م</span>
             )}

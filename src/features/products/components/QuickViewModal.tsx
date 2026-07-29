@@ -85,7 +85,7 @@ export const QuickViewModal = ({
         </Link>
 
         <div className="flex items-baseline gap-3">
-          <span className="text-xl font-bold text-primary">{product.price} ج.م</span>
+          <span className="text-xl font-bold text-brand-deep">{product.price} ج.م</span>
           {hasDiscount && (
             <span className="text-base text-loading line-through">{product.comparePrice} ج.م</span>
           )}

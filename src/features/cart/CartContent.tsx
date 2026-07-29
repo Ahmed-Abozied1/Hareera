@@ -133,7 +133,7 @@ export const CartContent = () => {
                 <div className="flex flex-col flex-1 gap-1">
                   <h3 className="text-base font-bold text-title line-clamp-1">{item.name}</h3>
                   <p className="text-sm text-paragraph">المقاس: {item.size} — اللون: {item.color}</p>
-                  <span className="text-base font-bold text-title">{item.price} ج.م</span>
+                  <span className="text-base font-bold text-brand-deep">{item.price} ج.م</span>
 
                   <div className="flex items-center justify-between mt-auto">
                     <div className="flex items-center border border-border rounded-lg">
@@ -171,15 +171,15 @@ export const CartContent = () => {
               <h2 className="text-lg font-bold text-title">ملخص الطلب</h2>
               <div className="flex justify-between text-sm text-paragraph">
                 <span>الإجمالي الفرعي</span>
-                <span className="font-bold text-title">{subtotal} ج.م</span>
+                <span className="font-bold text-brand-deep">{subtotal} ج.م</span>
               </div>
               <div className="flex justify-between text-sm text-paragraph">
                 <span>الشحن</span>
-                <span className="font-bold text-title">{shipping === 0 ? "مجاني" : `${shipping} ج.م`}</span>
+                <span className="font-bold text-brand-deep">{shipping === 0 ? "مجاني" : `${shipping} ج.م`}</span>
               </div>
               <div className="flex justify-between pt-3 border-t border-border">
                 <span className="text-base font-bold text-primary">الإجمالي</span>
-                <span className="text-base font-bold text-primary">{total} ج.م</span>
+                <span className="text-base font-bold text-brand-deep">{total} ج.م</span>
               </div>
               {subtotal < FREE_SHIPPING_THRESHOLD && (
                 <p className="text-xs text-loading">

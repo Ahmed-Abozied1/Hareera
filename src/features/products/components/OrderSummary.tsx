@@ -76,7 +76,7 @@ export const OrderSummary = ({ data, name, phone, governorate, address }: OrderS
             <span className="text-regular-bold md:heading-6-bold text-primary">
               الإجمالي (دفع عند الاستلام)
             </span>
-            <span className="text-regular-bold md:heading-6-bold text-primary">
+            <span className="text-regular-bold md:heading-6-bold text-brand-deep">
               {total.toLocaleString("en-US")} ج.م
             </span>
           </div>

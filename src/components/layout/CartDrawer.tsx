@@ -78,7 +78,7 @@ export const CartDrawer = () => {
                   <span className="font-bold text-success">مبروك! حصلتي على شحن مجاني</span>
                 ) : (
                   <span>
-                    أضيفي بـ <span className="font-bold text-primary">{remaining} ج.م</span> واستمتعي بالشحن المجاني
+                    أضيفي بـ <span className="font-bold text-brand-deep">{remaining} ج.م</span> واستمتعي بالشحن المجاني
                   </span>
                 )}
               </div>
@@ -99,7 +99,7 @@ export const CartDrawer = () => {
                     <h3 className="text-sm font-bold text-title line-clamp-1">{item.name}</h3>
                     <p className="text-xs text-paragraph">المقاس: {item.size} — {item.color}</p>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-sm font-bold text-title">{item.price} ج.م</span>
+                      <span className="text-sm font-bold text-brand-deep">{item.price} ج.م</span>
                     </div>
 
                     <div className="flex items-center gap-2 mt-1">
@@ -135,7 +135,7 @@ export const CartDrawer = () => {
             <div className="border-t border-border px-5 py-4 shrink-0 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-base font-bold text-title">المجموع الفرعي</span>
-                <span className="text-lg font-bold text-primary">{subtotal} ج.م</span>
+                <span className="text-lg font-bold text-brand-deep">{subtotal} ج.م</span>
               </div>
               <p className="text-xs text-loading text-center">تُحسب مصاريف الشحن عند إتمام الطلب</p>
               <button
