@@ -111,7 +111,11 @@ export const ProductOverview = ({ product }: ProductOverviewProps) => {
 
           <div className="flex justify-between items-center my-2 md:my-4">
             <div className="flex items-center gap-3">
-              <span className="heading-5-bold md:heading-3-bold text-primary">
+              <span
+                className={`heading-5-bold md:heading-3-bold ${
+                  hasDiscount ? "text-brand-deep" : "text-title"
+                }`}
+              >
                 {product.price * quantity} ج.م
               </span>
               {hasDiscount && (

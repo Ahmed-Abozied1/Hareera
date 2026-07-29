@@ -99,7 +99,7 @@ export const CartDrawer = () => {
                     <h3 className="text-sm font-bold text-title line-clamp-1">{item.name}</h3>
                     <p className="text-xs text-paragraph">المقاس: {item.size} — {item.color}</p>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-sm font-bold text-error">{item.price} ج.م</span>
+                      <span className="text-sm font-bold text-title">{item.price} ج.م</span>
                     </div>
 
                     <div className="flex items-center gap-2 mt-1">

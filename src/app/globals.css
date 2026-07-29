@@ -4,28 +4,43 @@
 @theme {
   --font-sst: var(--font-sst), ui-sans-serif, system-ui;
 
-  /* Hareera brand palette — soft mauve from the logo, paired with a muted sage
-     as the second brand colour, on a clean white base. */
-  --color-primary: #8b607d;
-  --color-secondary: #b98fac;
+  /* Hareera palette — four roles, so no single colour carries the whole page:
+       primary  = ink, every action (buttons, active tabs). Warm-toned, not black.
+       brand    = the logo mauve, identity only (footer, hero tint, sale badges).
+       accent   = muted sage, freshness (section badges, alt surfaces, details).
+       neutrals = warm cream, so the two cool hues sit on a warm base.
+     Mauve and sage are split-complementary (320° vs 89°) and matched on
+     desaturation (18% vs 13%), which is what makes them read as one family. */
+
+  /* Ink — actions. Carries a trace of the mauve hue so it never looks like
+     generic black next to the brand colour. */
+  --color-primary: #3a3137;
+
+  /* Mauve — brand identity. -deep is the only one safe under white text. */
+  --color-secondary: #8b607d;
+  --color-brand-deep: #8b607d;
   --color-brand: #b088a5;
-  --color-brand-soft: #f3e9ef;
+  --color-brand-soft: #f5ecf1;
+
   /* Sage accent: -soft for section surfaces, -deep for text/icons (AA on white) */
   --color-accent: #9ca88f;
   --color-accent-soft: #eff2ea;
   --color-accent-deep: #6f7d62;
+
   --color-success: #1f8a3d;
   --color-error: #dc2626;
   --color-warning: #f2b705;
   --color-info: #2060d0;
-  --color-loading: #9a9a9a;
+  --color-loading: #948d90;
   --color-rating: #f4c430;
+
+  /* Warm neutrals — the cream base that bridges the mauve and the sage. */
   --color-bg: #ffffff;
-  --color-card: #f4f6f1;
-  --color-title: #1a1a1a;
-  --color-paragraph: #5c5c5c;
-  --color-disabled: #dcdcdc;
-  --color-border: #ececec;
+  --color-card: #f7f4ef;
+  --color-title: #241f22;
+  --color-paragraph: #5c5359;
+  --color-disabled: #dcd6d8;
+  --color-border: #ebe5e0;
 
   --text-h1: 56px;
   --text-h3: 40px;

@@ -61,7 +61,7 @@ export const NavbarContent = ({ session }: Props) => {
       }`}
     >
       <AnnouncementBar />
-      <div className="bg-primary transition-all duration-300">
+      <div className="bg-brand-deep transition-all duration-300">
       <div className="container flex items-center h-20">
 
         {/* LOGO */}

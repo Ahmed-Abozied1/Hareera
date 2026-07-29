@@ -133,7 +133,7 @@ export const CartContent = () => {
                 <div className="flex flex-col flex-1 gap-1">
                   <h3 className="text-base font-bold text-title line-clamp-1">{item.name}</h3>
                   <p className="text-sm text-paragraph">المقاس: {item.size} — اللون: {item.color}</p>
-                  <span className="text-base font-bold text-error">{item.price} ج.م</span>
+                  <span className="text-base font-bold text-title">{item.price} ج.م</span>
 
                   <div className="flex items-center justify-between mt-auto">
                     <div className="flex items-center border border-border rounded-lg">

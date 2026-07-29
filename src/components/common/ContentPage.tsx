@@ -11,7 +11,7 @@ export default function ContentPage({ title, children }: ContentPageProps) {
       <div className="container py-8 md:py-16">
           <div className="mb-4 md:mb-8 text-center">
             <h1 className="heading-4-bold md:heading-3-bold text-primary mt-20">{title}</h1>
-            <div className="w-12 h-0.5 bg-primary mx-auto mt-4 rounded-full" />
+            <div className="w-12 h-0.5 bg-accent mx-auto mt-4 rounded-full" />
           </div>
 
           <div className="bg-white rounded-2xl">
