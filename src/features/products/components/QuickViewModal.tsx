@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useModalStore } from "@/store/useModalStore";
@@ -11,6 +11,9 @@ import { useCartStore } from "@/store/useCartStore";
 import { useProduct } from "../hooks/useProduct";
 import { ProductQuantity } from "@/components/common/ProductQuantity";
 import { AppButton } from "@/components/common/AppButton";
+import { useSizeProfile } from "@/features/sizing/store/useSizeProfile";
+import { resolveSize } from "@/features/sizing/lib/recommend";
+import type { ProductCategory } from "@/features/sizing/constants/size-charts";
 
 export const QuickViewModal = ({
   data,
@@ -22,7 +25,7 @@ export const QuickViewModal = ({
   const { product: fetched, loading: fetching } = useProduct(productId, passedProduct);
   const product = passedProduct ?? fetched;
   const loading = !product && fetching;
-  const { close } = useModalStore();
+  const { close, open } = useModalStore();
   const addItem = useCartStore((s) => s.addItem);
   const closeCart = useCartStore((s) => s.closeCart);
   const router = useRouter();
@@ -30,6 +33,19 @@ export const QuickViewModal = ({
   const [size, setSize] = useState("");
   const [color, setColor] = useState("");
   const [quantity, setQuantity] = useState(1);
+
+  const profile = useSizeProfile((s) => s.profile);
+
+  useEffect(() => {
+    useSizeProfile.persist.rehydrate();
+  }, []);
+
+  // نفس منطق صفحة المنتج: لو ليها ملف محفوظ يبقى مقاسها مختار من هنا كمان
+  const suggested = useMemo(() => {
+    const list = product?.sizes ?? [];
+    if (!profile || !list.length) return null;
+    return resolveSize(profile, (product?.category as ProductCategory) ?? "PAJAMAS", list).size;
+  }, [profile, product?.sizes, product?.category]);
 
   if (loading || !product) {
     return (
@@ -42,7 +58,7 @@ export const QuickViewModal = ({
   const sizes = product.sizes || [];
   const colors = product.colors || [];
   const hasDiscount = !!product.comparePrice && product.comparePrice > product.price;
-  const currentSize = size || sizes[0] || "";
+  const currentSize = size || suggested || sizes[0] || "";
   const currentColor = color || colors[0] || "";
   const inStock = (product.stock ?? 0) > 0;
 
@@ -97,7 +113,23 @@ export const QuickViewModal = ({
 
         {sizes.length > 0 && (
           <div>
-            <span className="text-sm font-bold text-title">المقاس: {currentSize}</span>
+            <div className="flex items-baseline justify-between gap-3">
+              <span className="text-sm font-bold text-title">المقاس: {currentSize}</span>
+              <button
+                type="button"
+                onClick={() =>
+                  open("SIZE_FINDER", {
+                    category: (product.category as ProductCategory) ?? "PAJAMAS",
+                    availableSizes: sizes,
+                    // الستور بيبدّل المودال، فلازم نرجّع الكويك فيو بعد ما تخلص
+                    returnTo: { view: "QUICK_VIEW", data: { product } },
+                  })
+                }
+                className="text-xs font-bold text-accent-deep underline underline-offset-4 hover:text-primary transition-colors cursor-pointer"
+              >
+                {profile ? "غيّري مقاسك" : "مش عارفة مقاسك؟"}
+              </button>
+            </div>
             <div className="flex flex-wrap gap-2 mt-2">
               {sizes.map((s) => (
                 <button
@@ -114,6 +146,11 @@ export const QuickViewModal = ({
                 </button>
               ))}
             </div>
+            {suggested && !size && (
+              <p className="text-xs text-accent-deep bg-accent-soft rounded-lg px-2.5 py-1.5 mt-2">
+                مقاسك المقترح {suggested} — مختار لك تلقائياً.
+              </p>
+            )}
           </div>
         )}
 
