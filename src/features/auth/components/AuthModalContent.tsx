@@ -1,7 +1,7 @@
 "use client";
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { AtaaLogo } from "@/components/ui/icons/AtaaLogo";
+import { HareeraLogo } from "@/components/ui/icons/HareeraLogo";
 import { AuthHeader } from "@/features/auth/components/AuthHeader";
 import { useModalStore } from "@/store/useModalStore";
 import LoginForm from "../forms/LoginForm";
@@ -16,7 +16,7 @@ export const AuthModalContent = () => {
     return (
         <div className="flex flex-col items-center text-center space-y-6 md:space-y-8">
             <div className="mt-6! md:mt-8! shrink-0">
-                <AtaaLogo />
+                <HareeraLogo className="h-11 md:h-12" />
             </div>
 
             <AuthHeader

@@ -5,12 +5,13 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { productSchema, ProductFormData } from "../schemas/product.schema";
 import { useModalStore } from "@/store/useModalStore";
+import { toast } from "sonner";
 import { AppButton } from "@/components/common/AppButton";
 import { FormInput } from "@/components/common/FormInput";
 import { FormTextarea } from "@/components/common/FormTextarea";
 import { FormSelect } from "@/components/common/FormSelect";
-import { UploadDropzone } from "@/lib/uploadthing";
 import { SizeSelect, ColorsInput } from "./ProductOptionFields";
+import { ProductImagesInput } from "./ProductImagesInput";
 import { CATEGORIES } from "@/features/products/constants";
 import type { Resolver } from "react-hook-form";
 
@@ -21,8 +22,7 @@ type AddModalData = {
 export function AddProductModal({ data }: { data?: AddModalData }) {
   const { close } = useModalStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [uploading] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const [images, setImages] = useState<string[]>([]);
   const [sizes, setSizes] = useState<string[]>(["S", "M", "L", "XL"]);
   const [colors, setColors] = useState<string[]>([]);
 
@@ -52,13 +52,14 @@ export function AddProductModal({ data }: { data?: AddModalData }) {
   });
 
   const onSubmit: SubmitHandler<ProductFormData> = async (formData) => {
+    // كان بيرجع ساكت والمودال واقف من غير أي رسالة
+    if (!images.length) {
+      toast.error("لازم تضيف صورة واحدة للمنتج على الأقل");
+      return;
+    }
+
     try {
       setIsSubmitting(true);
-
-      if (!imageUrl) {
-        console.error("No image uploaded");
-        return;
-      }
 
       const response = await fetch("/api/products", {
         method: "POST",
@@ -74,24 +75,25 @@ export function AddProductModal({ data }: { data?: AddModalData }) {
           stock: Number(formData.stock),
           isFeatured: formData.isFeatured,
           isNew: formData.isNew,
-          imageUrl,
-          images: [imageUrl],
+          imageUrl: images[0],
+          images,
         }),
       });
 
       if (response.ok) {
+        toast.success("تمت إضافة المنتج بنجاح");
         data?.onSuccess?.();
         reset();
-        setImageUrl("");
+        setImages([]);
         setSizes(["S", "M", "L", "XL"]);
         setColors([]);
         close();
       } else {
-        const error = await response.json();
-        console.error("Server error:", error);
+        const error = await response.json().catch(() => ({}));
+        toast.error(error?.error || "فشل حفظ المنتج، حاول تاني");
       }
-    } catch (error) {
-      console.error("Submission error:", error);
+    } catch {
+      toast.error("تعذر الاتصال بالسيرفر، حاول تاني");
     } finally {
       setIsSubmitting(false);
     }
@@ -170,56 +172,22 @@ export function AddProductModal({ data }: { data?: AddModalData }) {
         </label>
       </div>
 
-      <div className="space-y-2">
-        <label className="text-medium-medium! text-title">صورة المنتج</label>
-
-        <div className="flex gap-4 items-start">
-          {imageUrl && (
-            <div className="flex-shrink-0">
-              <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-gray-100 border border-border">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={imageUrl} alt="Product preview" className="w-full h-full object-cover" />
-              </div>
-              <button
-                type="button"
-                onClick={() => { setImageUrl(""); setValue("imageUrl", ""); }}
-                className="text-red-500 text-xs hover:text-red-600 mt-1 block"
-              >
-                إزالة
-              </button>
-            </div>
-          )}
-
-          <div className="border-2 border-dashed border-border rounded-lg p-4 hover:border-primary transition-colors flex-1">
-            <UploadDropzone
-              endpoint="productImage"
-              onClientUploadComplete={(res) => {
-                if (res?.[0]?.url) {
-                  setImageUrl(res[0].url);
-                  setValue("imageUrl", res[0].url);
-                }
-              }}
-              onUploadError={(error) => {
-                console.error("Upload error:", error);
-              }}
-              appearance={{
-                container: "border-0 p-0",
-                button: "bg-primary text-white rounded-lg px-4 py-2 text-sm",
-                label: "text-paragraph text-sm",
-                allowedContent: "text-paragraph text-xs",
-              }}
-            />
-          </div>
-        </div>
-      </div>
+      <ProductImagesInput
+        value={images}
+        onChange={(v) => {
+          setImages(v);
+          setValue("imageUrl", v[0] ?? "");
+          setValue("images", v);
+        }}
+      />
 
       <div className="flex justify-end gap-2 pt-4">
-        <AppButton type="button" appVariant="secondary" onClick={() => { reset(); setImageUrl(""); setSizes(["S", "M", "L", "XL"]); setColors([]); close(); }}>
+        <AppButton type="button" appVariant="secondary" onClick={() => { reset(); setImages([]); setSizes(["S", "M", "L", "XL"]); setColors([]); close(); }}>
           إلغاء
         </AppButton>
 
-        <AppButton type="submit" isLoading={isSubmitting || uploading}>
-          {uploading ? "جاري الرفع..." : "إضافة منتج"}
+        <AppButton type="submit" isLoading={isSubmitting}>
+          إضافة منتج
         </AppButton>
       </div>
     </form>

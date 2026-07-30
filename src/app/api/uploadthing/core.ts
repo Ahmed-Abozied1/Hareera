@@ -33,7 +33,8 @@ export const ourFileRouter = {
   productImage: f({
     image: {
       maxFileSize: "4MB",
-      maxFileCount: 1,
+      // معرض صور للمنتج الواحد: الأولى هي الرئيسية والباقي زوايا وتفاصيل
+      maxFileCount: 6,
     },
   })
     .middleware(async () => {

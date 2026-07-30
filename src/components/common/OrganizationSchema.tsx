@@ -4,7 +4,7 @@ export function OrganizationSchema() {
     "@type": "Organization",
     name: "Hareera",
     url: process.env.NEXT_PUBLIC_APP_URL ?? "https://hareera.vercel.app",
-    logo: `${process.env.NEXT_PUBLIC_APP_URL ?? "https://hareera.vercel.app"}/images/logo.svg`,
+    logo: `${process.env.NEXT_PUBLIC_APP_URL ?? "https://hareera.vercel.app"}/images/logo/hareera-logo.svg`,
     description:
       "حريرة متجر ملابس نوم وبيتي حريمي: بيجامات، أطقم نوم ساتان، روبات، وقمصان نوم. الدفع عند الاستلام وشحن لكل محافظات مصر مع استبدال خلال 14 يوم.",
     contactPoint: {

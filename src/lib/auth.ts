@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { APIError } from "better-auth/api";
 import prisma from "./prisma";
+import { getAppUrl, getTrustedOrigins } from "./app-url";
 import { sendEmail } from "./email";
 import { emailOTP } from "better-auth/plugins";
 
@@ -38,9 +39,8 @@ export const auth = betterAuth({
       },
     },
   },
-  trustedOrigins: [
-    process.env.BETTER_AUTH_URL!,
-  ],
+  baseURL: getAppUrl(),
+  trustedOrigins: getTrustedOrigins(),
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),

@@ -1,7 +1,8 @@
+import { getAppUrl } from './app-url';
+
 export async function getData<T>(endpoint: string): Promise<T> {
-  const baseUrl = typeof window === 'undefined'
-    ? (process.env.NEXT_PUBLIC_APP_URL || '')
-    : '';
+  // على السيرفر لازم عنوان كامل؛ في المتصفح الأوريجن الحالي بيكفي.
+  const baseUrl = typeof window === 'undefined' ? getAppUrl() : '';
 
   try {
     const response = await fetch(`${baseUrl}/api/${endpoint}`);

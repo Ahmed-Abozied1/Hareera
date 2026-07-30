@@ -5,7 +5,7 @@ import Link from "next/link";
 import { getInitials } from "@/lib/getInitials";
 import { useProfileStore } from "@/store/profileStore";
 import { Avatar,AvatarImage,AvatarFallback } from "@/components/ui/avatar";
-import { AtaaLogo } from "@/components/ui/icons/AtaaLogo";
+import { HareeraLogo } from "@/components/ui/icons/HareeraLogo";
 
 interface User {
   id: string;
@@ -22,8 +22,8 @@ const Sidebar = ({ className, user }: { className?: string; user: User }) => {
   return (
     <aside className={`relative bg-bg flex flex-col h-full md:h-auto border-l border-transparent md:border-card ${className}`}>
       <div>
-        <div className="flex justify-center items-center py-6">
-          <AtaaLogo width={68} height={96} />
+        <div className="flex justify-center items-center py-6 px-4">
+          <HareeraLogo className="h-10 md:h-11" />
         </div>
 
         <SidebarMenu />

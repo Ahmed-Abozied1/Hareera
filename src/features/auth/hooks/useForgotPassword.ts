@@ -10,7 +10,12 @@ export const useForgotPassword = (role: "ADMIN" | "USER") => {
     email: string,
     resetForm: () => void
   ) => {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+    // الأوريجن الحقيقي اللي المستخدم واقف عليه. لو أخدناه من
+    // NEXT_PUBLIC_APP_URL كان رابط إعادة التعيين في الإيميل هيروح localhost.
+    const baseUrl =
+      typeof window !== "undefined"
+        ? window.location.origin
+        : process.env.NEXT_PUBLIC_APP_URL;
 
     const resetPath =
       role === "ADMIN" ? "/admin/reset-password" : "/";

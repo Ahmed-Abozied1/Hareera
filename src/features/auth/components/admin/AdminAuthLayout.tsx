@@ -1,3 +1,5 @@
+import { HareeraLogo } from "@/components/ui/icons/HareeraLogo";
+
 export const AdminAuthLayout = ({
     children,
     title,
@@ -7,16 +9,11 @@ export const AdminAuthLayout = ({
     title: string;
     description: string;
 }) => {
-console.log("AdminAuthLayout: Rendering with title:", title);
     return (
         <div className="bg-transparent md:bg-card p-0 md:p-8 min-h-screen flex flex-col">
             <div className="bg-bg rounded-0 md:rounded-3xl border-0 md:border-4 border-transparent md:border-card p-8 grow flex flex-col">
-                <div className="w-14.25 md:w-15.5 h-20 md:h-22 flex justify-center items-center mx-auto mb-6 md:mb-16">
-                    <img
-                        src="/images/logo-1.svg"
-                        alt="ataa"
-                        className="w-full h-full object-contain"
-                    />
+                <div className="flex justify-center items-center mx-auto mb-8 md:mb-16">
+                    <HareeraLogo className="h-14 md:h-16" priority />
                 </div>
 
                 <div className="w-full md:w-132 mx-auto">

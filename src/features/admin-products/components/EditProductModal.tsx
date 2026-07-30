@@ -11,8 +11,8 @@ import { AppButton } from "@/components/common/AppButton";
 import { FormInput } from "@/components/common/FormInput";
 import { FormTextarea } from "@/components/common/FormTextarea";
 import { FormSelect } from "@/components/common/FormSelect";
-import { UploadDropzone } from "@/lib/uploadthing";
 import { SizeSelect, ColorsInput } from "./ProductOptionFields";
+import { ProductImagesInput } from "./ProductImagesInput";
 import { CATEGORIES } from "@/features/products/constants";
 import type { Resolver } from "react-hook-form";
 
@@ -23,8 +23,13 @@ interface EditProductModalProps {
 export function EditProductModal({ data }: EditProductModalProps) {
   const { close } = useModalStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [uploading] = useState(false);
-  const [imageUrl, setImageUrl] = useState(data.product.imageUrl || "");
+  const [images, setImages] = useState<string[]>(
+    data.product.images?.length
+      ? data.product.images
+      : data.product.imageUrl
+        ? [data.product.imageUrl]
+        : []
+  );
   const [sizes, setSizes] = useState<string[]>(data.product.sizes || []);
   const [colors, setColors] = useState<string[]>(data.product.colors || []);
 
@@ -68,7 +73,13 @@ export function EditProductModal({ data }: EditProductModalProps) {
         isNew: data.product.isNew ?? true,
         imageUrl: data.product.imageUrl || "",
       });
-      setImageUrl(data.product.imageUrl || "");
+      setImages(
+        data.product.images?.length
+          ? data.product.images
+          : data.product.imageUrl
+            ? [data.product.imageUrl]
+            : []
+      );
       setSizes(data.product.sizes || []);
       setColors(data.product.colors || []);
     }
@@ -92,8 +103,8 @@ export function EditProductModal({ data }: EditProductModalProps) {
           stock: Number(formData.stock),
           isFeatured: formData.isFeatured,
           isNew: formData.isNew,
-          imageUrl: imageUrl || null,
-          images: imageUrl ? [imageUrl] : [],
+          imageUrl: images[0] || null,
+          images,
         }),
       });
 
@@ -185,60 +196,21 @@ export function EditProductModal({ data }: EditProductModalProps) {
         </label>
       </div>
 
-      <div className="space-y-2">
-        <label className="text-medium-medium! text-title">صورة المنتج</label>
-
-        <div className="flex gap-4 items-start">
-          {imageUrl && (
-            <div className="shrink-0">
-              <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-gray-100 border border-border">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={imageUrl}
-                  alt="Current product"
-                  className="w-full h-full object-cover"
-                  onError={(e) => { e.currentTarget.style.display = "none"; }}
-                />
-              </div>
-              <button
-                type="button"
-                onClick={() => { setImageUrl(""); setValue("imageUrl", ""); }}
-                className="text-red-500 text-xs hover:text-red-600 mt-1 block"
-              >
-                إزالة
-              </button>
-            </div>
-          )}
-
-          <div className="border-2 border-dashed border-border rounded-lg p-4 hover:border-primary transition-colors flex-1">
-            <UploadDropzone
-              endpoint="productImage"
-              onClientUploadComplete={(res) => {
-                if (res?.[0]?.url) {
-                  setImageUrl(res[0].url);
-                  setValue("imageUrl", res[0].url);
-                }
-              }}
-              onUploadError={(error) => {
-                console.error("Upload error:", error);
-              }}
-              appearance={{
-                container: "border-0 p-0",
-                button: "bg-primary text-white rounded-lg px-4 py-2 text-sm",
-                label: "text-paragraph text-sm",
-                allowedContent: "text-paragraph text-xs",
-              }}
-            />
-          </div>
-        </div>
-      </div>
+      <ProductImagesInput
+        value={images}
+        onChange={(v) => {
+          setImages(v);
+          setValue("imageUrl", v[0] ?? "");
+          setValue("images", v);
+        }}
+      />
 
       <div className="flex gap-2 justify-end pt-4">
         <AppButton type="button" appVariant="secondary" onClick={close}>
           إلغاء
         </AppButton>
-        <AppButton type="submit" isLoading={isSubmitting || uploading}>
-          {uploading ? "جاري رفع الصورة..." : isSubmitting ? "جاري الحفظ..." : "حفظ التغييرات"}
+        <AppButton type="submit" isLoading={isSubmitting}>
+          {isSubmitting ? "جاري الحفظ..." : "حفظ التغييرات"}
         </AppButton>
       </div>
     </form>

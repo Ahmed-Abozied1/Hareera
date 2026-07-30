@@ -1,4 +1,8 @@
-export const SIZES = ["S", "M", "L", "XL"] as const;
+/** المقاسات الجاهزة في فورم المنتج — والأدمن يقدر يضيف مقاس مخصص فوقهم. */
+export const SIZES = ["S", "M", "L", "XL", "2XL", "3XL", "مقاس واحد"] as const;
+
+/** أقصى عدد صور للمنتج الواحد — لازم يساوي maxFileCount في uploadthing. */
+export const MAX_PRODUCT_IMAGES = 6;
 
 export const CATEGORIES = [
   { id: "PAJAMAS", label: "بيجامات وأطقم نوم" },

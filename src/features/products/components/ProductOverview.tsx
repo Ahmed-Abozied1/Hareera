@@ -21,8 +21,18 @@ export const ProductOverview = ({ product }: ProductOverviewProps) => {
   const sizes = product.sizes || [];
   const colors = product.colors || [];
 
+  // المعرض: images لو موجودة، وإلا الصورة الرئيسية لوحدها (منتجات قديمة)
+  const gallery = product.images?.length
+    ? product.images
+    : product.imageUrl
+      ? [product.imageUrl]
+      : [];
+
   const [selectedSize, setSelectedSize] = useState<string>(sizes[0] || "");
   const [selectedColor, setSelectedColor] = useState<string>(colors[0] || "");
+  const [activeImage, setActiveImage] = useState<string>(
+    gallery[0] || "/images/products/product-1.webp"
+  );
   const [quantity, setQuantity] = useState<number>(1);
   const [loading, setLoading] = useState(false);
 
@@ -68,18 +78,46 @@ export const ProductOverview = ({ product }: ProductOverviewProps) => {
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-6 md:mt-10">
-        <div className="relative w-full aspect-4/3 md:aspect-auto md:h-full min-h-96 rounded-xl md:rounded-2xl overflow-hidden bg-card">
-          <Image
-            src={product.imageUrl || "/images/products/product-1.webp"}
-            alt={product.name}
-            fill
-            className="object-cover"
-            priority
-          />
-          {hasDiscount && (
-            <span className="absolute top-4 right-4 bg-error text-white text-small-bold px-3 py-1 rounded-full">
-              خصم
-            </span>
+        <div className="flex flex-col gap-3">
+          <div className="relative w-full aspect-4/3 md:aspect-square rounded-xl md:rounded-2xl overflow-hidden bg-card">
+            <Image
+              src={activeImage}
+              alt={product.name}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+              priority
+            />
+            {hasDiscount && (
+              <span className="absolute top-4 right-4 bg-brand-deep text-white text-small-bold px-3 py-1 rounded-full">
+                خصم
+              </span>
+            )}
+          </div>
+
+          {gallery.length > 1 && (
+            <div className="flex gap-2 flex-wrap">
+              {gallery.map((url, i) => (
+                <button
+                  key={url}
+                  type="button"
+                  onClick={() => setActiveImage(url)}
+                  aria-label={`عرض صورة ${i + 1}`}
+                  className={cn(
+                    "relative w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border-2 transition-colors cursor-pointer bg-card",
+                    activeImage === url ? "border-primary" : "border-border hover:border-brand"
+                  )}
+                >
+                  <Image
+                    src={url}
+                    alt={`${product.name} — صورة ${i + 1}`}
+                    fill
+                    sizes="80px"
+                    className="object-cover"
+                  />
+                </button>
+              ))}
+            </div>
           )}
         </div>
 
