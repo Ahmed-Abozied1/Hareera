@@ -16,7 +16,7 @@ const contacts = [
     { 
       name: "إيميل", 
       icon: Email, 
-      href: "mailto:atta.aqiqa@outlook.com" 
+      href: "mailto:hareera212@outlook.com"
     },
   ];
 
