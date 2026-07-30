@@ -5,11 +5,14 @@ import { cn } from "@/lib/utils";
 import { useModalStore } from "@/store/useModalStore";
 import { AppButton } from "@/components/common/AppButton";
 import { AppBreadcrumb } from "@/components/common/AppBreadcrumb";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Star } from "@/components/ui/icons/Star";
 import { ProductQuantity } from "@/components/common/ProductQuantity";
 import { Product } from "../types/product.types";
 import { initiateCheckout } from "@/lib/pixel";
+import { useSizeProfile } from "@/features/sizing/store/useSizeProfile";
+import { resolveSize } from "@/features/sizing/lib/recommend";
+import type { ProductCategory } from "@/features/sizing/constants/size-charts";
 
 interface ProductOverviewProps {
   product: Product;
@@ -35,6 +38,35 @@ export const ProductOverview = ({ product }: ProductOverviewProps) => {
   );
   const [quantity, setQuantity] = useState<number>(1);
   const [loading, setLoading] = useState(false);
+
+  const category = (product.category as ProductCategory) ?? "PAJAMAS";
+  const profile = useSizeProfile((s) => s.profile);
+  const [suggested, setSuggested] = useState<string | null>(null);
+
+  // الملف محفوظ في localStorage، والسيرفر مش شايفه — بنرطّب بعد المونت
+  // عشان الرندر الأول يفضل مطابق للي جه من السيرفر.
+  useEffect(() => {
+    useSizeProfile.persist.rehydrate();
+  }, []);
+
+  // أول ما نلاقي ملف محفوظ، نختار مقاسها بدل ما تدور عليه كل مرة
+  useEffect(() => {
+    if (!profile || !sizes.length) return;
+    const { size } = resolveSize(profile, category, sizes);
+    if (!size) return;
+    setSuggested(size);
+    setSelectedSize(size);
+  }, [profile, category, sizes]);
+
+  const openSizeFinder = () =>
+    open("SIZE_FINDER", {
+      category,
+      availableSizes: sizes,
+      onPick: (size: string) => {
+        setSuggested(size);
+        setSelectedSize(size);
+      },
+    });
 
   const ratingValue = typeof product?.rating === "number" ? product.rating : 0;
   const inStock = (product.stock ?? 0) > 0;
@@ -163,7 +195,17 @@ export const ProductOverview = ({ product }: ProductOverviewProps) => {
 
           {sizes.length > 0 && (
             <>
-              <h3 className="text-large-bold md:heading-5-bold text-title">المقاس</h3>
+              <div className="flex items-center justify-between gap-3 flex-wrap">
+                <h3 className="text-large-bold md:heading-5-bold text-title">المقاس</h3>
+                <button
+                  type="button"
+                  onClick={openSizeFinder}
+                  className="text-small-bold text-accent-deep underline underline-offset-4 hover:text-primary transition-colors cursor-pointer"
+                >
+                  {profile ? "غيّري مقاسك" : "مش عارفة مقاسك؟"}
+                </button>
+              </div>
+
               <div className="flex flex-wrap gap-3">
                 {sizes.map((size) => (
                   <button
@@ -180,6 +222,12 @@ export const ProductOverview = ({ product }: ProductOverviewProps) => {
                   </button>
                 ))}
               </div>
+
+              {suggested && (
+                <p className="text-small-normal text-accent-deep bg-accent-soft rounded-lg px-3 py-2">
+                  مقاسك المقترح {suggested} — مختار لك تلقائياً، وتقدري تغيّريه.
+                </p>
+              )}
             </>
           )}
 

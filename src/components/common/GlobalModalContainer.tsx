@@ -14,6 +14,7 @@ import { ReviewModal } from '@/features/products/components/ReviewModal';
 import { AddProductModal } from "@/features/admin-products/components/AddProductModal";
 import { EditProductModal } from "@/features/admin-products/components/EditProductModal";
 import { DeleteProductModal } from "@/features/admin-products/components/DeleteProductModal";
+import { SizeFinderModal } from "@/features/sizing/components/SizeFinderModal";
 import { AppModal } from './AppModal';
 
 const viewMap = {
@@ -32,6 +33,7 @@ const viewMap = {
   ADMIN_PRODUCT_CREATE: AddProductModal,
   ADMIN_PRODUCT_EDIT: EditProductModal,
   ADMIN_PRODUCT_DELETE: DeleteProductModal,
+  SIZE_FINDER: SizeFinderModal,
 } as const;
 
 type ViewKey = keyof typeof viewMap;
@@ -50,6 +52,8 @@ export const GlobalModalContainer = () => {
       return "max-w-sm! sm:h-auto! sm:rounded-2xl! max-h-fit! min-h-0! h-auto!";
     if (view === "QUICK_VIEW")
       return "max-w-3xl! w-full! sm:rounded-2xl! h-auto! max-h-[90vh]! overflow-y-auto!";
+    if (view === "SIZE_FINDER")
+      return "max-w-3xl! w-full! sm:rounded-2xl! h-auto! max-h-[92vh]! overflow-y-auto!";
   };
   
   const getModalTitle = () => {
@@ -58,6 +62,7 @@ export const GlobalModalContainer = () => {
     if (view === "ADMIN_PRODUCT_CREATE") return "إضافة منتج جديد";
     if (view === "ADMIN_PRODUCT_EDIT") return "تعديل المنتج";
     if (view === "ADMIN_PRODUCT_DELETE") return "حذف المنتج";
+    if (view === "SIZE_FINDER") return "اعرفي مقاسك";
     return undefined;
   };
   
