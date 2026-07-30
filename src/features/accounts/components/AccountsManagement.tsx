@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Download, ChevronRight, ChevronLeft } from "lucide-react"
 import { useAccounts } from "../hooks/useAccounts"
+import { useSession } from "@/features/auth/hooks/useAuth"
 import { AccountsTable } from "./AccountsTable"
 import { AccountsFilters } from "./AccountsFilters"
 import { prepareUsersExportData, convertToCSV, downloadCSV } from "../utils/accounts.utils"
@@ -24,7 +25,12 @@ export default function AccountsManagement() {
     resetFilters,
     updateFilter,
     setCurrentPage,
+    toggleUserActive,
+    pendingUserId,
   } = useAccounts()
+
+  const { data: session } = useSession()
+  const currentUserId = session?.data?.user?.id ?? session?.user?.id
 
   const handleExport = () => {
     try {
@@ -71,6 +77,9 @@ export default function AccountsManagement() {
               itemsPerPage={itemsPerPage}
               onSelectAll={handleSelectAll}
               onSelectRow={handleSelectRow}
+              onToggleActive={toggleUserActive}
+              pendingUserId={pendingUserId}
+              currentUserId={currentUserId}
             />
           </div>)
         }

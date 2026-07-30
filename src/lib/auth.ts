@@ -1,5 +1,6 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import { APIError } from "better-auth/api";
 import prisma from "./prisma";
 import { sendEmail } from "./email";
 import { emailOTP } from "better-auth/plugins";
@@ -10,7 +11,31 @@ export const auth = betterAuth({
     updateAge: 60 * 60 * 24,         // يجدد الـ session كل يوم تلقائي
     cookieCache: {
       enabled: true,
-      maxAge: 60 * 60 * 24 * 30,
+      // خمس دقايق مش ٣٠ يوم: ده كاش للسيشن جوه الكوكي، ولو طولناه
+      // الإيقاف بياخد نفس المدة قبل ما يشتغل، لأن السيرفر مش بيسأل الداتابيز
+      maxAge: 60 * 5,
+    },
+  },
+
+  databaseHooks: {
+    session: {
+      create: {
+        // بوابة واحدة تغطي كل طرق الدخول (إيميل وباسورد، OTP، جوجل):
+        // مفيش سيشن بتتعمل لحساب موقوف
+        before: async (session) => {
+          const user = await prisma.user.findUnique({
+            where: { id: session.userId },
+            select: { isActive: true },
+          });
+
+          if (user && !user.isActive) {
+            throw new APIError("FORBIDDEN", {
+              message: "هذا الحساب موقوف. تواصل مع الإدارة.",
+              code: "ACCOUNT_DISABLED",
+            });
+          }
+        },
+      },
     },
   },
   trustedOrigins: [
@@ -45,6 +70,11 @@ export const auth = betterAuth({
       },
       role: {
         type: "string",
+        input: false,
+      },
+      // بتتقرا مع السيشن عشان الجارد بيتاع اللوحة يشوفها من غير طلب زيادة
+      isActive: {
+        type: "boolean",
         input: false,
       },
       image: {

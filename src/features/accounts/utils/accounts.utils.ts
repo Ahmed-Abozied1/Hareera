@@ -28,8 +28,8 @@ export const filterUsers = (users: User[], filters: AccountsFilters): User[] => 
   }
 
   if (filters.status && filters.status !== 'all') {
-    const isActive = filters.status === 'active'
-    filtered = filtered.filter(user => user.emailVerified === isActive)
+    const wantActive = filters.status === 'active'
+    filtered = filtered.filter(user => user.isActive === wantActive)
   }
 
   return filtered
@@ -40,7 +40,7 @@ export const prepareUsersExportData = (users: User[]) => {
     'الاسم': user.name,
     'البريد الإلكتروني': user.email,
     'رقم الهاتف': user.phone || '-',
-    'الحالة': user.emailVerified ? 'نشط' : 'غير نشط',
+    'الحالة': user.isActive ? 'نشط' : 'غير نشط',
     'الدور': getRoleLabel(user.role),
     'تاريخ التسجيل': formatUserDate(user.createdAt),
   }))

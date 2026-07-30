@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { toast } from 'sonner'
 import { AccountsFilters, PaginatedUsers, User } from '../types/accounts.types'
 import { accountsService } from '../services/accounts.service'
 import { ITEMS_PER_PAGE } from '../constants/accounts.constants'
@@ -26,6 +27,7 @@ export function useAccounts() {
   const [selectedRows, setSelectedRows] = useState<string[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const [filters, setFilters] = useState<AccountsFilters>(initialFilters)
+  const [pendingUserId, setPendingUserId] = useState<string | null>(null)
 
   const debouncedSearch = useDebounce(filters.searchTerm, 500)
 
@@ -75,6 +77,24 @@ export function useAccounts() {
     )
   }, [])
 
+  const toggleUserActive = useCallback(async (user: User) => {
+    const next = !user.isActive
+    setPendingUserId(user.id)
+    try {
+      await accountsService.setActive(user.id, next)
+      toast.success(
+        next
+          ? `تم تنشيط حساب ${user.name}`
+          : `تم إيقاف حساب ${user.name} وإنهاء جلساته`
+      )
+      await fetchUsers()
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'فشل تحديث حالة الحساب')
+    } finally {
+      setPendingUserId(null)
+    }
+  }, [fetchUsers])
+
   const resetFilters = useCallback(() => {
     setFilters(initialFilters)
     setCurrentPage(1)
@@ -102,6 +122,8 @@ export function useAccounts() {
     resetFilters,
     updateFilter,
     setCurrentPage,
+    toggleUserActive,
+    pendingUserId,
     refetch: fetchUsers
   }
 }

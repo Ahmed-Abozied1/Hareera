@@ -8,6 +8,8 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
 
   if (!user) return unauthorized();
   if (user.role !== "ADMIN") return forbidden();
+  // الإيقاف لازم يقفل اللوحة على سيشن شغالة بالفعل، مش بس يمنع دخول جديد
+  if (user.isActive === false) return forbidden();
 
   return <DashboardLayout user={user}>{children}</DashboardLayout>;
 };

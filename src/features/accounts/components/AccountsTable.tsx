@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import { Loader2 } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -21,6 +22,9 @@ interface AccountsTableProps {
   itemsPerPage: number;
   onSelectAll: (checked: boolean) => void;
   onSelectRow: (id: string, checked: boolean) => void;
+  onToggleActive?: (user: User) => void;
+  pendingUserId?: string | null;
+  currentUserId?: string;
 }
 
 export function AccountsTable({
@@ -30,6 +34,9 @@ export function AccountsTable({
   itemsPerPage,
   onSelectAll,
   onSelectRow,
+  onToggleActive,
+  pendingUserId,
+  currentUserId,
 }: AccountsTableProps) {
   const handleSelectAll = useCallback(
     (checked: boolean | string) => {
@@ -84,6 +91,11 @@ export function AccountsTable({
               <TableHead className="py-4.75 text-title text-center font-bold">
                 تاريخ التسجيل
               </TableHead>
+              {onToggleActive && (
+                <TableHead className="py-4.75 text-title text-center font-bold">
+                  إجراء
+                </TableHead>
+              )}
             </TableRow>
           </TableHeader>
 
@@ -123,6 +135,33 @@ export function AccountsTable({
                   </span>
                 </TableCell>
                 <TableCell>{formatUserDate(user.createdAt)}</TableCell>
+
+                {onToggleActive && (
+                  <TableCell>
+                    {user.id === currentUserId ? (
+                      <span className="text-small-normal text-loading">أنت</span>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => onToggleActive(user)}
+                        disabled={pendingUserId === user.id}
+                        className={cn(
+                          "px-4 py-2 rounded-lg text-xs font-bold border transition-colors cursor-pointer",
+                          "disabled:opacity-50 disabled:cursor-not-allowed",
+                          "inline-flex items-center justify-center gap-1.5 min-w-24",
+                          user.isActive
+                            ? "border-error text-error hover:bg-error/10"
+                            : "border-success text-success hover:bg-success/10"
+                        )}
+                      >
+                        {pendingUserId === user.id && (
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        )}
+                        {user.isActive ? "إيقاف" : "تنشيط"}
+                      </button>
+                    )}
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

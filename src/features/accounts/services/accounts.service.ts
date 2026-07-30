@@ -23,5 +23,18 @@ export const accountsService = {
     const query = `users?getAll=true&searchTerm=${searchTerm}&role=${role}&status=${status}&sortBy=${sortBy}`
     const response = await getData<{ users: User[] }>(query)
     return response.users
+  },
+
+  async setActive(userId: string, isActive: boolean): Promise<User> {
+    const res = await fetch('/api/users', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, isActive }),
+    })
+
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw new Error(data?.error || 'فشل تحديث حالة الحساب')
+
+    return data.user as User
   }
 }

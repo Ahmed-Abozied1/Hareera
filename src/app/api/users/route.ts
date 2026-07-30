@@ -46,6 +46,7 @@ export async function GET(request: NextRequest) {
           email: true,
           phone: true,
           isActive: true,
+          role: true,
           createdAt: true,
           _count: {
     select: {
@@ -69,6 +70,7 @@ export async function GET(request: NextRequest) {
           email: true,
           phone: true,
           isActive: true,
+          role: true,
           createdAt: true,
         },
         orderBy,
@@ -80,6 +82,72 @@ export async function GET(request: NextRequest) {
       { users, totalPages: Math.ceil(total / limit), currentPage: page, totalUsers: total },
       { headers: { "Cache-Control": "private, max-age=15, stale-while-revalidate=30" } }
     )
+  } catch {
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+  }
+}
+
+// إيقاف / تنشيط حساب. الإيقاف بيمسح سيشنات المستخدم كمان، وإلا يفضل
+// داخل بالسيشن القديمة لحد ما تنتهي.
+export async function PATCH(request: NextRequest) {
+  try {
+    const session = await getServerSession()
+    if (!session?.user || session.user.role !== "ADMIN") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
+    const body = await request.json().catch(() => null)
+    const userId = typeof body?.userId === "string" ? body.userId : null
+    const isActive = typeof body?.isActive === "boolean" ? body.isActive : null
+
+    if (!userId || isActive === null) {
+      return NextResponse.json(
+        { error: "userId و isActive مطلوبين" },
+        { status: 400 }
+      )
+    }
+
+    // الأدمن ميقدرش يوقف نفسه — ده أسرع طريق لقفل اللوحة على الكل
+    if (userId === session.user.id) {
+      return NextResponse.json(
+        { error: "لا يمكنك إيقاف حسابك الخاص" },
+        { status: 400 }
+      )
+    }
+
+    const target = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true, role: true, isActive: true },
+    })
+
+    if (!target) {
+      return NextResponse.json({ error: "الحساب غير موجود" }, { status: 404 })
+    }
+
+    // ولا يوقف آخر أدمن نشط، عشان اللوحة تفضل مفتوحة لحد
+    if (!isActive && target.role === "ADMIN") {
+      const otherActiveAdmins = await prisma.user.count({
+        where: { role: "ADMIN", isActive: true, id: { not: userId } },
+      })
+      if (otherActiveAdmins === 0) {
+        return NextResponse.json(
+          { error: "لا يمكن إيقاف آخر مدير نشط" },
+          { status: 400 }
+        )
+      }
+    }
+
+    const updated = await prisma.user.update({
+      where: { id: userId },
+      data: { isActive },
+      select: { id: true, name: true, email: true, isActive: true },
+    })
+
+    if (!isActive) {
+      await prisma.session.deleteMany({ where: { userId } })
+    }
+
+    return NextResponse.json({ user: updated })
   } catch {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
