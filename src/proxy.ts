@@ -1,27 +1,51 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { auth } from './lib/auth'; // تأكد من مسار ملف الـ auth
+import { auth } from './lib/auth';
+
+// صفحات تحت /admin لكنها للي لسه *مش* داخل — لازم تفضل مفتوحة،
+// وإلا صفحة الدخول نفسها بتتحمي من اللي جاي يسجل دخول.
+const ADMIN_PUBLIC_PATHS = [
+  '/admin/login',
+  '/admin/forgot-password',
+  '/admin/reset-password',
+];
 
 // يجب أن يكون الاسم "proxy" أو export default
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // جلب الجلسة
   const session = await auth.api.getSession({
     headers: request.headers,
   });
 
-  // 1. إذا كان المستخدم ADMIN ويحاول فتح الصفحة الرئيسية '/'
+  const user = session?.user as
+    | { role?: string; isActive?: boolean }
+    | undefined;
+  const isAdmin = !!user && user.role === 'ADMIN' && user.isActive !== false;
+
+  const isPublicAdminPath = ADMIN_PUBLIC_PATHS.some(
+    (p) => pathname === p || pathname.startsWith(`${p}/`)
+  );
+
+  // 1. الأدمن الداخل بالفعل ملوش لازمة في صفحة الدخول
+  if (isPublicAdminPath) {
+    if (isAdmin) {
+      return NextResponse.redirect(new URL('/admin', request.url));
+    }
+    return NextResponse.next();
+  }
+
+  // 2. إذا كان المستخدم ADMIN ويحاول فتح الصفحة الرئيسية '/'
   if (pathname === '/') {
-    if (session?.user && (session.user as any).role === "ADMIN") {
+    if (isAdmin) {
       return NextResponse.redirect(new URL('/admin', request.url));
     }
   }
 
-  // 2. حماية مسار الأدمن من المستخدمين العاديين
+  // 3. حماية باقي مسارات الأدمن
   if (pathname.startsWith('/admin')) {
-    if (!session || (session.user as any).role !== "ADMIN") {
-      return NextResponse.redirect(new URL('/', request.url));
+    if (!isAdmin) {
+      return NextResponse.redirect(new URL('/admin/login', request.url));
     }
   }
 
