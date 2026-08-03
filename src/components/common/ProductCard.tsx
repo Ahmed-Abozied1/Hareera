@@ -73,7 +73,7 @@ export const ProductCard: FC<ProductCardProps & { list?: boolean }> = ({
       </div>
 
       {/* Bottom */}
-      <div className={cn("pt-3", list ? "flex items-center justify-between gap-4 md:block" : "")}>
+      <div className="pt-3">
         <div
           className={cn(
             "flex flex-col gap-1.5",
@@ -102,19 +102,6 @@ export const ProductCard: FC<ProductCardProps & { list?: boolean }> = ({
             )}
           </div>
         </div>
-
-        {/* Mobile: button below the image */}
-        <button
-          type="button"
-          onClick={openQuickView}
-          disabled={loadingQuick}
-          className={cn(
-            "md:hidden bg-primary text-bg text-sm font-bold rounded-full hover:bg-primary/90 transition-colors cursor-pointer flex items-center justify-center",
-            list ? "shrink-0 px-7 py-3 min-w-32" : "w-full py-3 mt-3"
-          )}
-        >
-          {loadingQuick ? <Loader2 className="w-5 h-5 animate-spin" /> : "حدد الخيارات"}
-        </button>
       </div>
     </div>
   );
