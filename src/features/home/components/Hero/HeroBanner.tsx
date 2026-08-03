@@ -75,16 +75,18 @@ export const HeroBanner = () => {
               key={slide.desktop}
               aria-hidden={!isActive}
               className={cn(
-                "absolute inset-0 transition-opacity duration-1000 ease-out",
+                "absolute inset-0 transition-opacity duration-1000 ease-out transform-gpu",
                 isActive ? "opacity-100" : "opacity-0"
               )}
             >
               <div
                 className={cn(
-                  "relative w-full h-full transition-transform ease-out motion-reduce:transition-none motion-reduce:scale-100",
+                  "relative w-full h-full transition-transform ease-out transform-gpu will-change-transform motion-reduce:transition-none motion-reduce:scale-100",
                   isActive
                     ? "scale-105 duration-[7000ms]"
-                    : "scale-100 duration-1000"
+                    : // يرجع لحجمه بعد ما يختفي خالص، مش وهو بيختفي — من غير كده
+                      // الصورتين بيتحركوا عكس بعض في نفس اللحظة وبتبان كهزة
+                      "scale-100 duration-0 delay-1000"
                 )}
               >
                 {/* Mobile banner */}
