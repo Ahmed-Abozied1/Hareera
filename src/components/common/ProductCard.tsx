@@ -82,8 +82,9 @@ export const ProductCard: FC<ProductCardProps & { list?: boolean }> = ({
               : "items-center text-center"
           )}
         >
+          {/* التصنيف على الشاشات الكبيرة بس — على الموبايل بيزحم الكارد من غير فايدة */}
           {category && (
-            <span className="text-sm text-loading">
+            <span className="hidden md:block text-sm text-loading">
               {CATEGORY_LABELS[category] || category}
             </span>
           )}
