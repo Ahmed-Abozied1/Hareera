@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const SLIDES = [
@@ -19,12 +19,37 @@ const SLIDES = [
 ];
 
 const SLIDE_DURATION = 6000;
+const CONTROLS_LINGER = 3000;
+
+// Hidden and untappable until hovered (desktop) or the banner is tapped (touch)
+const ARROW_CLASSES =
+  "absolute top-1/2 -translate-y-1/2 grid place-items-center size-10 md:size-12 rounded-full bg-white/70 hover:bg-white text-title shadow-md backdrop-blur-sm cursor-pointer transition-all duration-300 opacity-0 pointer-events-none md:group-hover:opacity-100 md:group-hover:pointer-events-auto focus-visible:opacity-100 focus-visible:pointer-events-auto";
+const ARROW_VISIBLE = "opacity-100 pointer-events-auto";
 
 export const HeroBanner = () => {
   const [active, setActive] = useState(0);
+  // Touch devices have no hover, so a tap on the banner reveals the arrows
+  const [touchControls, setTouchControls] = useState(false);
+  const hideControls = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const goTo = useCallback(
     (index: number) => setActive((index + SLIDES.length) % SLIDES.length),
+    []
+  );
+
+  const revealControls = useCallback(() => {
+    setTouchControls(true);
+    if (hideControls.current) clearTimeout(hideControls.current);
+    hideControls.current = setTimeout(
+      () => setTouchControls(false),
+      CONTROLS_LINGER
+    );
+  }, []);
+
+  useEffect(
+    () => () => {
+      if (hideControls.current) clearTimeout(hideControls.current);
+    },
     []
   );
 
@@ -39,7 +64,10 @@ export const HeroBanner = () => {
 
   return (
     <div className="w-full">
-      <div className="relative w-full overflow-hidden aspect-[4/5] md:aspect-[12/5] group">
+      <div
+        onTouchStart={revealControls}
+        className="relative w-full overflow-hidden aspect-[4/5] md:aspect-[12/5] group"
+      >
         {SLIDES.map((slide, index) => {
           const isActive = index === active;
           return (
@@ -87,7 +115,11 @@ export const HeroBanner = () => {
           type="button"
           onClick={() => goTo(active - 1)}
           aria-label="الشريحة السابقة"
-          className="absolute start-3 md:start-6 top-1/2 -translate-y-1/2 grid place-items-center size-10 md:size-12 rounded-full bg-white/70 hover:bg-white text-title shadow-md backdrop-blur-sm cursor-pointer transition-all duration-300 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 max-md:opacity-100"
+          className={cn(
+            ARROW_CLASSES,
+            touchControls && ARROW_VISIBLE,
+            "start-3 md:start-6"
+          )}
         >
           <ChevronRight className="size-5 md:size-6" />
         </button>
@@ -95,7 +127,11 @@ export const HeroBanner = () => {
           type="button"
           onClick={() => goTo(active + 1)}
           aria-label="الشريحة التالية"
-          className="absolute end-3 md:end-6 top-1/2 -translate-y-1/2 grid place-items-center size-10 md:size-12 rounded-full bg-white/70 hover:bg-white text-title shadow-md backdrop-blur-sm cursor-pointer transition-all duration-300 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 max-md:opacity-100"
+          className={cn(
+            ARROW_CLASSES,
+            touchControls && ARROW_VISIBLE,
+            "end-3 md:end-6"
+          )}
         >
           <ChevronLeft className="size-5 md:size-6" />
         </button>
