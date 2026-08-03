@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useCartStore } from "@/store/useCartStore";
-import { GOVERNORATES } from "@/features/products/constants";
+import { GovernorateSelect } from "@/components/common/GovernorateSelect";
 import { AppButton } from "@/components/common/AppButton";
 
 const FREE_SHIPPING_THRESHOLD = 1500;
@@ -194,11 +194,12 @@ export const CartContent = () => {
                 className="w-full h-11 px-4 text-right border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
               <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="رقم الهاتف / الواتساب" dir="ltr"
                 className="w-full h-11 px-4 text-right border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
-              <select value={governorate} onChange={(e) => setGovernorate(e.target.value)}
-                className="w-full h-11 px-4 text-right border border-border rounded-lg bg-bg focus:outline-none focus:ring-2 focus:ring-primary">
-                <option value="">اختاري المحافظة</option>
-                {GOVERNORATES.map((g) => <option key={g} value={g}>{g}</option>)}
-              </select>
+              <GovernorateSelect
+                value={governorate}
+                onChange={setGovernorate}
+                label=""
+                triggerClassName="h-11! border border-border"
+              />
               <textarea value={address} onChange={(e) => setAddress(e.target.value)} rows={3} placeholder="العنوان بالتفصيل"
                 className="w-full px-4 py-3 text-right border border-border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-primary" />
               <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={2} placeholder="ملاحظات (اختياري)"

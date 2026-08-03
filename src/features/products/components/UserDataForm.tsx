@@ -7,7 +7,7 @@ import { ModalHeader } from "./ModalHeader";
 import { useEffect } from "react";
 import { FormInput } from "@/components/common/FormInput";
 import { PhoneInputField } from "@/components/common/PhoneInput";
-import { GOVERNORATES } from "../constants";
+import { GovernorateSelect } from "@/components/common/GovernorateSelect";
 
 interface UserDataFormProps {
   name: string;
@@ -103,19 +103,7 @@ export const UserDataForm = ({
           label="رقم الهاتف / الواتساب"
         />
 
-        <div className="space-y-1.5">
-          <label className="text-medium-medium! text-title block">المحافظة</label>
-          <select
-            value={governorate}
-            onChange={(e) => setGovernorate(e.target.value)}
-            className="w-full h-12 px-4 text-right border border-border rounded-lg bg-bg text-title focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="">اختاري المحافظة</option>
-            {GOVERNORATES.map((g) => (
-              <option key={g} value={g}>{g}</option>
-            ))}
-          </select>
-        </div>
+        <GovernorateSelect value={governorate} onChange={setGovernorate} />
 
         <div className="space-y-1.5">
           <label className="text-medium-medium! text-title block">العنوان بالتفصيل</label>
