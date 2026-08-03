@@ -4,13 +4,11 @@ import { MapPin } from "lucide-react";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { GOVERNORATE_GROUPS } from "@/features/products/constants";
+import { GOVERNORATES } from "@/features/products/constants";
 import { cn } from "@/lib/utils";
 
 interface GovernorateSelectProps {
@@ -54,21 +52,14 @@ export const GovernorateSelect = ({
           position="popper"
           className="bg-bg border border-border! max-h-72"
         >
-          {GOVERNORATE_GROUPS.map((group) => (
-            <SelectGroup key={group.region}>
-              <SelectLabel className="text-primary/70 font-medium sticky top-0 bg-bg">
-                {group.region}
-              </SelectLabel>
-              {group.governorates.map((governorate) => (
-                <SelectItem
-                  key={governorate}
-                  value={governorate}
-                  className="cursor-pointer"
-                >
-                  {governorate}
-                </SelectItem>
-              ))}
-            </SelectGroup>
+          {GOVERNORATES.map((governorate) => (
+            <SelectItem
+              key={governorate}
+              value={governorate}
+              className="cursor-pointer"
+            >
+              {governorate}
+            </SelectItem>
           ))}
         </SelectContent>
       </Select>
