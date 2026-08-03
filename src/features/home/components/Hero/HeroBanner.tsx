@@ -23,7 +23,7 @@ const CONTROLS_LINGER = 3000;
 
 // Hidden and untappable until hovered (desktop) or the banner is tapped (touch)
 const ARROW_CLASSES =
-  "absolute top-1/2 -translate-y-1/2 grid place-items-center size-10 md:size-12 rounded-full bg-white/70 hover:bg-white text-title shadow-md backdrop-blur-sm cursor-pointer transition-all duration-300 opacity-0 pointer-events-none md:group-hover:opacity-100 md:group-hover:pointer-events-auto focus-visible:opacity-100 focus-visible:pointer-events-auto";
+  "absolute top-1/2 -translate-y-1/2 grid place-items-center size-10 md:size-12 rounded-full bg-white/70 hover:bg-white text-title shadow-md md:backdrop-blur-sm cursor-pointer transition-all duration-300 opacity-0 pointer-events-none md:group-hover:opacity-100 md:group-hover:pointer-events-auto focus-visible:opacity-100 focus-visible:pointer-events-auto";
 const ARROW_VISIBLE = "opacity-100 pointer-events-auto";
 
 export const HeroBanner = () => {
@@ -83,10 +83,11 @@ export const HeroBanner = () => {
                 className={cn(
                   "relative w-full h-full transition-transform ease-out transform-gpu will-change-transform motion-reduce:transition-none motion-reduce:scale-100",
                   isActive
-                    ? "scale-105 duration-[7000ms]"
+                    ? // زووم أهدأ على الموبايل، الصورة طويلة فنفس النسبة بتبان أكتر
+                      "scale-[1.025] md:scale-105 duration-[7000ms]"
                     : // يرجع لحجمه بعد ما يختفي خالص، مش وهو بيختفي — من غير كده
                       // الصورتين بيتحركوا عكس بعض في نفس اللحظة وبتبان كهزة
-                      "scale-100 duration-0 delay-1000"
+                      "scale-100 duration-0 delay-[1200ms]"
                 )}
               >
                 {/* Mobile banner */}
