@@ -1,5 +1,5 @@
 // app/api/testimonials/route.ts
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export async function GET() {
@@ -36,7 +36,7 @@ export async function GET() {
     return NextResponse.json(formattedTestimonials, {
       headers: { "Cache-Control": "public, max-age=60, stale-while-revalidate=300" },
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Failed to fetch testimonials" }, { status: 500 });
   }
 }

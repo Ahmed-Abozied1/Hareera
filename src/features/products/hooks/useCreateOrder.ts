@@ -2,7 +2,8 @@ import { useState } from "react";
 import { CreateOrderPayload } from "../types/product.types";
 
 interface UseCreateOrderReturn {
-  createOrder: (payload: CreateOrderPayload) => Promise<any | false>;
+  /** بيرجع جسم الرد من الـ API لو نجح، وfalse لو فشل — المستدعي بيتأكد من النجاح بس. */
+  createOrder: (payload: CreateOrderPayload) => Promise<unknown>;
   isSubmitting: boolean;
   error: string | null;
 }

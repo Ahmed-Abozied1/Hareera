@@ -4,7 +4,6 @@
 import { Users, ShoppingCart } from "lucide-react"
 import { StatCard } from "./StatCard"
 import { formatNumber } from "../utils/dashboard.utils"
-import { Skeleton } from "@/components/ui/skeleton"
 import { ReturnType_useCardData } from "../hooks/useCardData"
 
 interface StatsOverviewProps {

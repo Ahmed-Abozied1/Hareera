@@ -8,7 +8,6 @@ interface ProfileImageUploadProps {
   userName: string;
   isImageUpdating: boolean;
   onImageUpload: (url: string) => Promise<void>;
-  onImageDelete: () => Promise<void>;
 }
 
 const ProfileImageUpload = ({
@@ -16,7 +15,6 @@ const ProfileImageUpload = ({
   userName,
   isImageUpdating,
   onImageUpload,
-  onImageDelete,
 }: ProfileImageUploadProps) => {
   const userInitial = getInitials(userName);
 
@@ -24,7 +22,6 @@ const ProfileImageUpload = ({
     <ImageUpload
       currentImage={currentImage}
       onImageUpload={onImageUpload}
-      onImageDelete={onImageDelete}
       userInitial={userInitial}
       isLoading={isImageUpdating}
     />

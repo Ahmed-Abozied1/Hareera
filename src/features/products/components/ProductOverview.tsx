@@ -31,7 +31,7 @@ export const ProductOverview = ({ product }: ProductOverviewProps) => {
       ? [product.imageUrl]
       : [];
 
-  const [selectedSize, setSelectedSize] = useState<string>(sizes[0] || "");
+  const [pickedSize, setPickedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string>(colors[0] || "");
   const [activeImage, setActiveImage] = useState<string>(
     gallery[0] || "/images/products/product-1.webp"
@@ -41,7 +41,6 @@ export const ProductOverview = ({ product }: ProductOverviewProps) => {
 
   const category = (product.category as ProductCategory) ?? "PAJAMAS";
   const profile = useSizeProfile((s) => s.profile);
-  const [suggested, setSuggested] = useState<string | null>(null);
 
   // الملف محفوظ في localStorage، والسيرفر مش شايفه — بنرطّب بعد المونت
   // عشان الرندر الأول يفضل مطابق للي جه من السيرفر.
@@ -49,23 +48,19 @@ export const ProductOverview = ({ product }: ProductOverviewProps) => {
     useSizeProfile.persist.rehydrate();
   }, []);
 
-  // أول ما نلاقي ملف محفوظ، نختار مقاسها بدل ما تدور عليه كل مرة
-  useEffect(() => {
-    if (!profile || !sizes.length) return;
-    const { size } = resolveSize(profile, category, sizes);
-    if (!size) return;
-    setSuggested(size);
-    setSelectedSize(size);
-  }, [profile, category, sizes]);
+  // المقاس المقترح مشتق من الملف المحفوظ، فبنحسبه وقت الرندر بدل ما نخزنه في state.
+  // اختيار المستخدمة بإيدها بيكسب عليه.
+  const suggested =
+    profile && sizes.length
+      ? resolveSize(profile, category, sizes).size || null
+      : null;
+  const selectedSize = pickedSize ?? suggested ?? sizes[0] ?? "";
 
   const openSizeFinder = () =>
     open("SIZE_FINDER", {
       category,
       availableSizes: sizes,
-      onPick: (size: string) => {
-        setSuggested(size);
-        setSelectedSize(size);
-      },
+      onPick: (size: string) => setPickedSize(size),
     });
 
   const ratingValue = typeof product?.rating === "number" ? product.rating : 0;
@@ -210,7 +205,7 @@ export const ProductOverview = ({ product }: ProductOverviewProps) => {
                 {sizes.map((size) => (
                   <button
                     key={size}
-                    onClick={() => setSelectedSize(size)}
+                    onClick={() => setPickedSize(size)}
                     className={cn(
                       "min-w-14 px-4 py-3 rounded-xl border transition cursor-pointer text-regular-bold",
                       selectedSize === size

@@ -40,7 +40,7 @@ export async function PATCH(
     const body = await request.json()
     const { status, isArchived } = body
 
-    const data: any = {};
+    const data: Prisma.OrderUpdateInput = {};
 
     if (isArchived !== undefined) {
       data.isArchived = isArchived;

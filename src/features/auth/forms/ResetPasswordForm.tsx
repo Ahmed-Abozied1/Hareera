@@ -4,21 +4,20 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormPasswordInput } from "@/components/common/FormPasswordInput";
 import { AppButton } from "@/components/common/AppButton";
-import { useModalStore } from "@/store/useModalStore";
+import { modalText, useModalStore } from "@/store/useModalStore";
 import { resetPasswordSchema, ResetPasswordFormData } from "../schemas/password.schema";
 import { usePasswordReset } from "../hooks/usePasswordReset";
 
 interface ResetPasswordFormProps {
-  role: 'ADMIN' | 'USER';
   token?: string;
 }
 
-export const ResetPasswordForm = ({ role, token: propsToken }: ResetPasswordFormProps) => {
+export const ResetPasswordForm = ({ token: propsToken }: ResetPasswordFormProps) => {
   const { data } = useModalStore();
   
-  const activeToken = propsToken || data?.token;
+  const activeToken = propsToken || modalText(data, "token");
 
-  const { resetPassword, isLoading } = usePasswordReset(role);
+  const { resetPassword, isLoading } = usePasswordReset();
 
   const { register, handleSubmit, formState: { errors } } = useForm<ResetPasswordFormData>({
     resolver: zodResolver(resetPasswordSchema),

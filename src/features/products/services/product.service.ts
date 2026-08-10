@@ -51,15 +51,4 @@ export const productService = {
     }
     return response.json();
   },
-  async getProductParts(productId: string) {
-  const response = await fetch(
-    `/api/product-parts?productId=${productId}`
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch product parts");
-  }
-
-  return response.json();
-},
 };

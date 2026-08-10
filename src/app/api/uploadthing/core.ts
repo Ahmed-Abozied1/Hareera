@@ -11,7 +11,7 @@ export const ourFileRouter = {
       maxFileCount: 1,
     },
   })
-    .middleware(async ({ req }) => {
+    .middleware(async () => {
       const session = await getServerSession();
       
       if (!session?.user) {

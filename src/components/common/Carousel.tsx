@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
 import { CarouselDots } from '@/components/common/CarouselDots';
+import { useIsClient } from '@/hooks/useIsClient';
 
 type CarouselProps<T> = {
   items: T[]
@@ -27,13 +28,10 @@ export function Carousel<T>({
     desktop: 3.5,
   },
 }: CarouselProps<T>) {
-  const [mounted, setMounted] = useState(false);
+  // Swiper بيقيس الـ DOM، فمابنركبهوش غير بعد الـ hydration
+  const mounted = useIsClient();
   const [swiperApi, setSwiperApi] = useState<SwiperType | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const displayItems = useMemo(() => 
     loading ? Array.from({ length: 5 }) : items,

@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useProfileStore } from "@/store/profileStore";
 import { useSession } from "@/features/auth/hooks/useAuth";
 import { profileService } from "@/features/common/profile.service";
+import { getErrorMessage } from "@/lib/utils";
 
 export const useProfile = () => {
   const { data: session, refetch } = useSession();
@@ -33,37 +34,18 @@ export const useProfile = () => {
       updateUser({ image: url });
 
       toast.success("تم تحديث الصورة بنجاح");
-    } catch (error: any) {
-      toast.error(error.message || "حدث خطأ أثناء تحديث الصورة");
+    } catch (error) {
+      toast.error(getErrorMessage(error, "حدث خطأ أثناء تحديث الصورة"));
     } finally {
       setIsImageUpdating(false);
     }
   };
 
-  const handleImageDelete = async () => {
-    if (!user) return;
-
-    setIsImageUpdating(true);
-
-    try {
-      await profileService.deleteProfileImage();
-      await refetch();
-
-      updateUser({ image: null });
-
-      toast.success("تم حذف الصورة بنجاح");
-    } catch (error: any) {
-      toast.error(error.message || "حدث خطأ أثناء حذف الصورة");
-    } finally {
-      setIsImageUpdating(false);
-    }
-  };
-
+  // مفيش حذف صورة في بروفايل المستخدمة — الزرار موجود في بروفايل الأدمن بس
   return {
     user,
     isImageUpdating,
     handleImageUpload,
-    handleImageDelete,
     refetch,
   };
 };

@@ -30,13 +30,6 @@ export interface RegisterCredentials {
   acceptTerms: boolean;
 }
 
-export interface AuthResponse {
-  user: AuthUser;
-  session: any;
-}
-
-
-
 export type UserRole = "ADMIN" | "USER";
 
 export interface AuthError {

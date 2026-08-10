@@ -21,7 +21,6 @@ export const ProfileHeader = () => {
           userName={loading ? "" : user.name}
           isImageUpdating={isImageUpdating}
           onImageUpload={handleImageUpload}
-          onImageDelete={handleImageDelete}
         />
         )}
 

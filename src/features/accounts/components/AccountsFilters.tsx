@@ -26,7 +26,6 @@ export function AccountsFilters({
   filters,
   onFilterChange,
   onReset,
-  selectedCount,
 }: AccountsFiltersProps) {
   const [isOpen, setIsOpen] = useState(false)
   

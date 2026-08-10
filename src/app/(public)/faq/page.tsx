@@ -8,9 +8,6 @@ export const metadata:Metadata = {
 };
 
 export default function FAQPage() {
-  const pClass =
-    "text-paragraph text-regular-normal md:text-regular-medium";
-
   return (
     <ContentPage title="الاسئله الشائعه">
     <Accordion

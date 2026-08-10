@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Grid2x2, Square } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ProductCard } from "@/components/common/ProductCard";
@@ -17,25 +18,19 @@ type FilterId = (typeof FILTERS)[number]["id"];
 
 export const ShopContent = () => {
   const [category, setCategory] = useState<FilterId>("all");
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
   const [mobileCols, setMobileCols] = useState<1 | 2>(2);
 
-  useEffect(() => {
-    let active = true;
-    setLoading(true);
-    const query = category === "all" ? "" : `?category=${category}`;
-    fetch(`/api/products${query}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (active) setProducts(data.data || []);
-      })
-      .catch(() => active && setProducts([]))
-      .finally(() => active && setLoading(false));
-    return () => {
-      active = false;
-    };
-  }, [category]);
+  // React Query بيتولى الجلب والإلغاء والكاش، فالرجوع لقسم زرته قبل كده بقى فوري
+  const { data: products = [], isPending: loading } = useQuery({
+    queryKey: ["products", category],
+    queryFn: async (): Promise<Product[]> => {
+      const query = category === "all" ? "" : `?category=${category}`;
+      const res = await fetch(`/api/products${query}`);
+      if (!res.ok) throw new Error("فشل تحميل المنتجات");
+      const body = await res.json();
+      return body.data || [];
+    },
+  });
 
   return (
     <main className="min-h-screen pt-28 md:pt-36 pb-16">

@@ -1,5 +1,5 @@
 import { authClient } from "@/lib/auth-client";
-import { AccountFormData, PasswordFormData } from "../types/profile.types";
+import { PasswordFormData } from "../types/profile.types";
 type UpdateAccountPayload = {
   name: string;
   email: string;

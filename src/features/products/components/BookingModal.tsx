@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useModalStore } from "@/store/useModalStore";
 import { BookingStepper } from "./BookingStepper";
 import { BookingNavigation } from "./BookingNavigation";
@@ -14,41 +14,29 @@ import { CHECKOUT_STEPS } from "../constants";
 import { purchase } from "@/lib/pixel";
 
 export const BookingModal = () => {
-  const { isOpen, close, data, open } = useModalStore();
+  // المودال ده بيتركّب وقت الفتح بس، فمفيش داعي نصفّر الحقول عند القفل — بيتفكّ خلاص
+  const { close, data, open } = useModalStore();
   const modalData = data as CartItem | null;
   const { data: session } = useSession();
   const { createOrder, isSubmitting, error } = useCreateOrder();
 
   const [currentStep, setCurrentStep] = useState(1);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState<PhoneObject>({ country: "+20", number: "" });
+  // null معناها "المستخدمة ما كتبتش حاجة لسه"، فبنعرض بيانات حسابها لحد ما تعدّل
+  const [typedName, setTypedName] = useState<string | null>(null);
+  const [typedPhone, setTypedPhone] = useState<PhoneObject | null>(null);
   const [governorate, setGovernorate] = useState("");
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
 
   const activeSteps = CHECKOUT_STEPS;
 
-  useEffect(() => {
-    if (session?.user) setName(session.user.name || "");
-    if (session?.user?.phone) {
-      const userPhone =
-        typeof session.user.phone === "string"
-          ? { country: "+20", number: session.user.phone.replace(/[^0-9]/g, "") }
-          : session.user.phone || { country: "+20", number: "" };
-      setPhone(userPhone);
-    }
-  }, [session]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setCurrentStep(1);
-      setName("");
-      setPhone({ country: "+20", number: "" });
-      setGovernorate("");
-      setAddress("");
-      setNotes("");
-    }
-  }, [isOpen]);
+  const sessionUser = session?.user;
+  const name = typedName ?? sessionUser?.name ?? "";
+  const phone =
+    typedPhone ??
+    (typeof sessionUser?.phone === "string"
+      ? { country: "+20", number: sessionUser.phone.replace(/[^0-9]/g, "") }
+      : { country: "+20", number: "" });
 
   const handleSubmitOrder = async () => {
     if (!modalData) return;
@@ -124,9 +112,9 @@ export const BookingModal = () => {
       return (
         <UserDataForm
           name={name}
-          setName={setName}
+          setName={setTypedName}
           phone={phone}
-          setPhone={setPhone}
+          setPhone={setTypedPhone}
           governorate={governorate}
           setGovernorate={setGovernorate}
           address={address}
@@ -150,11 +138,7 @@ export const BookingModal = () => {
 
   return (
     <div className="flex flex-col">
-      <BookingStepper
-        currentStep={currentStep}
-        setCurrentStep={setCurrentStep}
-        steps={activeSteps}
-      />
+      <BookingStepper currentStep={currentStep} steps={activeSteps} />
 
       {getCurrentStepContent()}
 

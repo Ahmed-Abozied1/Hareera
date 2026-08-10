@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { Prisma } from "@/generated/prisma/client"
 import prisma from "@/lib/prisma"
 import { getServerSession } from "@/lib/get-session"
 
@@ -19,8 +20,12 @@ export async function GET(request: NextRequest) {
     const sortBy = searchParams.get("sortBy") || "newest"
     const getAll = searchParams.get("getAll") === "true"
 
-    const conditions: any[] = []
-    if (role !== "all") conditions.push({ role: role.toUpperCase() })
+    const conditions: Prisma.UserWhereInput[] = []
+    // الدور جاي من الـ query string، فبنتأكد إنه واحد من قيم الـ enum قبل ما يدخل الاستعلام
+    const requestedRole = role.toUpperCase()
+    if (requestedRole === "ADMIN" || requestedRole === "USER") {
+      conditions.push({ role: requestedRole })
+    }
     if (status !== "all") conditions.push({ isActive: status === "active" })
     if (searchTerm) {
       conditions.push({
@@ -33,7 +38,7 @@ export async function GET(request: NextRequest) {
     }
     const where = conditions.length ? { AND: conditions } : {}
 
-    let orderBy: any = { createdAt: "desc" }
+    let orderBy: Prisma.UserOrderByWithRelationInput = { createdAt: "desc" }
     if (sortBy === "name") orderBy = { name: "asc" }
     if (sortBy === "oldest") orderBy = { createdAt: "asc" }
 

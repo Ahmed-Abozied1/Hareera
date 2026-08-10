@@ -2,18 +2,18 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Minus, Plus, Trash2, X, Truck } from "lucide-react";
+import { useIsClient } from "@/hooks/useIsClient";
 import { useCartStore } from "@/store/useCartStore";
 
 const FREE_SHIPPING_THRESHOLD = 1500;
 
 export const CartDrawer = () => {
   const { items, isOpen, closeCart, updateQuantity, removeItem } = useCartStore();
-  const [mounted, setMounted] = useState(false);
+  // محتويات العربة جاية من localStorage، فمابنرسمش الدرج غير بعد الـ hydration
+  const mounted = useIsClient();
   const router = useRouter();
-
-  useEffect(() => setMounted(true), []);
 
   // Lock body scroll while open
   useEffect(() => {

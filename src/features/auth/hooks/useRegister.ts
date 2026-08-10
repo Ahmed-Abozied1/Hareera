@@ -33,7 +33,7 @@ export const useRegister = () => {
       setView("OTP_VERIFICATION");
       toast.success("تم إنشاء الحساب بنجاح، يرجى التحقق من بريدك");
       
-    } catch (err) {
+    } catch {
       toast.error("حدث خطأ غير متوقع في الاتصال");
     } finally {
       setIsLoading(false);

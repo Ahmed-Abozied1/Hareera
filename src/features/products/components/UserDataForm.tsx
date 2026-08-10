@@ -55,7 +55,7 @@ export const UserDataForm = ({
     register,
     control,
     formState: { errors },
-    watch,
+    subscribe,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
@@ -65,20 +65,21 @@ export const UserDataForm = ({
     },
   });
 
-  const watchedName = watch("name");
-  const watchedPhone = watch("phone");
-
+  // الفورم هو صاحب قيم الاسم والتليفون، وبنبلّغ الأب بالتغيير من خلال اشتراك واحد.
+  // قبل كده كانت القيم مكرّرة في state تاني وبتتزامن بـ effect لكل حقل.
   useEffect(() => {
-    if (watchedName !== undefined && watchedName !== name) {
-      setName(watchedName || "");
-    }
-  }, [watchedName]);
-
-  useEffect(() => {
-    if (watchedPhone !== undefined && watchedPhone !== phone) {
-      setPhone(watchedPhone || { country: "+20", number: "" });
-    }
-  }, [watchedPhone]);
+    const unsubscribe = subscribe({
+      formState: { values: true },
+      callback: ({ values }) => {
+        setName(values.name || "");
+        setPhone({
+          country: values.phone?.country || "+20",
+          number: values.phone?.number || "",
+        });
+      },
+    });
+    return unsubscribe;
+  }, [subscribe, setName, setPhone]);
 
   return (
     <div className="flex-1" dir="rtl">

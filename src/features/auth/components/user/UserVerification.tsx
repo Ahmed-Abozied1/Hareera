@@ -1,12 +1,12 @@
 "use client";
 
-import { useModalStore } from "@/store/useModalStore";
+import { modalText, useModalStore } from "@/store/useModalStore";
 import { AuthLayout } from "../AuthLayout";
 import { VerificationForm } from "../../forms/VerificationForm";
 
 export const UserVerification = () => {
   const { data } = useModalStore();
-  const email = data?.email;
+  const email = modalText(data, "email");
 
   return (
     <AuthLayout

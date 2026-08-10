@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { profileService } from "@/features/common/profile.service";
 import { AdminPasswordFormData } from "../types/profile.types";
 import { adminPasswordFormSchema } from "../validations/profile.validation";
+import { getErrorMessage } from "@/lib/utils";
 
 export const usePasswordForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,8 +29,8 @@ export const usePasswordForm = () => {
       await profileService.changePassword(data);
       toast.success("تم تغيير كلمة المرور بنجاح");
       reset();
-    } catch (error: any) {
-      toast.error(error.message || "حدث خطأ أثناء تغيير كلمة المرور");
+    } catch (error) {
+      toast.error(getErrorMessage(error, "حدث خطأ أثناء تغيير كلمة المرور"));
     } finally {
       setIsLoading(false);
     }

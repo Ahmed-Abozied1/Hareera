@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "@/lib/get-session";
 
@@ -18,7 +19,7 @@ export async function GET(request: NextRequest) {
     const approvalStatus = searchParams.get("approvalStatus") || "all";
     const skip = (page - 1) * limit;
 
-    const where: any = {};
+    const where: Prisma.ReviewWhereInput = {};
 
     if (search) {
       where.OR = [

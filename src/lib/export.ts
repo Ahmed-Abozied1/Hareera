@@ -1,4 +1,4 @@
-export function convertToCSV<T extends Record<string, any>>(data: T[]): string {
+export function convertToCSV<T extends Record<string, unknown>>(data: T[]): string {
   if (data.length === 0) return '';
   const headers = Object.keys(data[0]);
   const csvRows = [
@@ -8,7 +8,7 @@ export function convertToCSV<T extends Record<string, any>>(data: T[]): string {
   return csvRows.join('\n');
 }
 
-export function exportToCSV<T extends Record<string, any>>(data: T[], filename: string): void {
+export function exportToCSV<T extends Record<string, unknown>>(data: T[], filename: string): void {
   const csv = convertToCSV(data);
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');

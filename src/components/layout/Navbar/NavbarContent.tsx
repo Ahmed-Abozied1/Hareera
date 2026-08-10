@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { Session, User } from "@/lib/auth";
 import { useResetPasswordToken } from "@/hooks/useResetPasswordToken";
 import { Menu } from "@/components/ui/icons/Menu";
 import { NavbarLogo } from "./NavbarLogo";
@@ -9,19 +8,10 @@ import { NavLinks } from "./NavLinks";
 import { CartIcon } from "./CartIcon";
 import { DrawerMenu } from "./DrawerMenu";
 import { AnnouncementBar } from "./AnnouncementBar";
-import { usePathname } from "next/navigation";
 
-interface Props {
-  session: { session: Session; user: User } | null;
-}
-
-export const NavbarContent = ({ session }: Props) => {
-  const pathname = usePathname();
-  const isHome = pathname === "/";
-
+export const NavbarContent = () => {
   const [drawer, setDrawer] = useState(false);
   const [active, setActive] = useState("الرئيسية");
-  const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
 
   useResetPasswordToken();
@@ -35,7 +25,6 @@ export const NavbarContent = ({ session }: Props) => {
       if (!ticking) {
         requestAnimationFrame(() => {
           const y = window.scrollY;
-          setScrolled(y > 50);
           // Hide when scrolling down past the header, show when scrolling up
           if (y > lastY && y > 120) {
             setHidden(true);

@@ -9,6 +9,7 @@ import { AccountFormData } from "../types/profile.types";
 import { useProfile } from "./useProfile";
 import { useProfileStore } from "@/store/profileStore";
 import { profileService } from "@/features/common/profile.service";
+import { getErrorMessage } from "@/lib/utils";
 
 const COUNTRY_CODES = [
   "+20",
@@ -103,8 +104,8 @@ export const useAccountForm = () => {
         toast.success("تم تحديث البيانات بنجاح");
         await refetch();
       }
-    } catch (error: any) {
-      toast.error(error.message || "حدث خطأ");
+    } catch (error) {
+      toast.error(getErrorMessage(error, "حدث خطأ"));
     } finally {
       setIsLoading(false);
     }

@@ -5,7 +5,8 @@ import { getAuthErrorMessage } from "@/lib/auth-error";
 import { toast } from "sonner";
 import { useModalStore } from "@/store/useModalStore";
 
-export const usePasswordReset = (role: 'ADMIN' | 'USER') => {
+// إعادة تعيين كلمة المرور واحدة للأدمن والمستخدم، فمفيش داعي لتمرير الدور
+export const usePasswordReset = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { open } = useModalStore();
 
@@ -24,7 +25,7 @@ export const usePasswordReset = (role: 'ADMIN' | 'USER') => {
       open("PASSWORD_UPDATED_SUCCESS");
 
       return true;
-    } catch (err) {
+    } catch {
       toast.error("حدث خطأ غير متوقع");
       setIsLoading(false);
       return false;

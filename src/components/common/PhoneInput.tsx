@@ -1,25 +1,33 @@
 "use client";
 
-import { Controller } from "react-hook-form";
+import {
+  Controller,
+  type Control,
+  type FieldPath,
+  type FieldValues,
+} from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
 /** الشحن داخل مصر بس، فالكود ثابت ومفيش قايمة دول تختاري منها. */
 const EGYPT_DIAL_CODE = "+20";
 
-interface PhoneInputFieldProps {
-  name: string;
-  control: any;
-  error?: any;
+/** الشكل اللي الحقل ده بيخزنه في الفورم. */
+type PhoneValue = { country: string; number: string };
+
+interface PhoneInputFieldProps<T extends FieldValues> {
+  name: FieldPath<T>;
+  control: Control<T>;
+  error?: { message?: string };
   label?: string;
 }
 
-export function PhoneInputField({
+export function PhoneInputField<T extends FieldValues>({
   name,
   control,
   error,
   label,
-}: PhoneInputFieldProps) {
+}: PhoneInputFieldProps<T>) {
   return (
     <div className="space-y-2">
       {label && <Label>{label}</Label>}
@@ -28,7 +36,8 @@ export function PhoneInputField({
         name={name}
         control={control}
         render={({ field }) => {
-          const value = field.value || {
+          // Controller بيدي القيمة كنوع عام حسب اسم الحقل، فبنضيّقها هنا مرة واحدة
+          const value = (field.value as PhoneValue | undefined) || {
             country: EGYPT_DIAL_CODE,
             number: "",
           };

@@ -10,6 +10,7 @@ import { useProfileStore } from "@/store/profileStore";
 import { profileService } from "@/features/common/profile.service";
 import { adminAccountFormSchema } from "../validations/profile.validation";
 import { AdminAccountFormData } from "../types/profile.types";
+import { getErrorMessage } from "@/lib/utils";
 
 export const useAccountForm = () => {
   const { user, refetch } = useProfile();
@@ -55,8 +56,8 @@ export const useAccountForm = () => {
         toast.success("تم تحديث البيانات بنجاح");
         await refetch();
       }
-    } catch (error: any) {
-      toast.error(error.message || "حدث خطأ أثناء تحديث البيانات");
+    } catch (error) {
+      toast.error(getErrorMessage(error, "حدث خطأ أثناء تحديث البيانات"));
     } finally {
       setIsLoading(false);
     }

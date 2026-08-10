@@ -32,7 +32,7 @@ export function useImageUpload(onUpload: (url: string) => Promise<void>) {
           }
         };
         reader.readAsDataURL(file);
-      } catch (error) {
+      } catch {
         toast.error("حدث خطأ أثناء معالجة الصورة");
       } finally {
         setIsLoading(false);

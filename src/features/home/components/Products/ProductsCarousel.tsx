@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ProductSkeleton } from './ProductSkeleton';
 import { Product } from '../../types';
 import { Carousel } from '@/components/common/Carousel';

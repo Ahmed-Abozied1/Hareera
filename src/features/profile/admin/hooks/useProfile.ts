@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useSession } from "@/features/auth/hooks/useAuth";
 import { useProfileStore } from "@/store/profileStore";
 import { profileService } from "@/features/common/profile.service";
+import { getErrorMessage } from "@/lib/utils";
 
 export const useProfile = () => {
   const { data: session, refetch } = useSession();
@@ -28,8 +29,8 @@ export const useProfile = () => {
       await refetch();
       updateUser({ image: url });
       toast.success("تم تحديث الصورة بنجاح");
-    } catch (error: any) {
-      toast.error(error.message || "حدث خطأ أثناء تحديث الصورة");
+    } catch (error) {
+      toast.error(getErrorMessage(error, "حدث خطأ أثناء تحديث الصورة"));
     } finally {
       setIsImageUpdating(false);
     }
@@ -42,8 +43,8 @@ export const useProfile = () => {
       await refetch();
       updateUser({ image: null });
       toast.success("تم حذف الصورة بنجاح");
-    } catch (error: any) {
-      toast.error(error.message || "حدث خطأ أثناء حذف الصورة");
+    } catch (error) {
+      toast.error(getErrorMessage(error, "حدث خطأ أثناء حذف الصورة"));
     } finally {
       setIsImageUpdating(false);
     }

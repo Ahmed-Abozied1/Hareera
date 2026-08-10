@@ -3,20 +3,26 @@
 import { useEffect, useState } from "react";
 import { AppButton } from "@/components/common/AppButton";
 import { Bell, BellOff } from "lucide-react";
+import { useIsClient } from "@/hooks/useIsClient";
 
 export function PushNotificationButton() {
-  const [status, setStatus] = useState<"loading" | "subscribed" | "unsubscribed" | "unsupported">("loading");
+  const isClient = useIsClient();
+  const [subscription, setSubscription] = useState<
+    "loading" | "subscribed" | "unsubscribed"
+  >("loading");
+
+  // دعم المتصفح حاجة نقدر نقراها وقت الرندر، مش حالة محتاجة effect
+  const supported =
+    isClient && "serviceWorker" in navigator && "PushManager" in window;
+  const status = supported ? subscription : "unsupported";
 
   useEffect(() => {
-    if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
-      setStatus("unsupported");
-      return;
-    }
+    if (!supported) return;
     navigator.serviceWorker.register("/sw.js").then(async (reg) => {
       const sub = await reg.pushManager.getSubscription();
-      setStatus(sub ? "subscribed" : "unsubscribed");
+      setSubscription(sub ? "subscribed" : "unsubscribed");
     });
-  }, []);
+  }, [supported]);
 
   async function subscribe() {
     const reg = await navigator.serviceWorker.ready;
@@ -29,7 +35,7 @@ export function PushNotificationButton() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(sub),
     });
-    setStatus("subscribed");
+    setSubscription("subscribed");
   }
 
   async function unsubscribe() {
@@ -43,7 +49,7 @@ export function PushNotificationButton() {
       });
       await sub.unsubscribe();
     }
-    setStatus("unsubscribed");
+    setSubscription("unsubscribed");
   }
 
   if (status === "unsupported" || status === "loading") return null;

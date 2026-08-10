@@ -1,6 +1,6 @@
 "use client";
 
-import { Star, X } from "lucide-react";
+import { Star } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";

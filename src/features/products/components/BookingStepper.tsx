@@ -10,12 +10,10 @@ interface Step {
 
 interface BookingStepperProps {
     currentStep: number;
-    setCurrentStep: (step: number) => void;
     steps: Step[];
-    hasParts?: boolean;
 }
 
-export function BookingStepper({ currentStep, setCurrentStep, steps, hasParts = true }: BookingStepperProps) {
+export function BookingStepper({ currentStep, steps }: BookingStepperProps) {
     const totalSteps = steps.length;
     const progressPercentage = ((currentStep - 1) / (totalSteps - 1)) * 100;
     

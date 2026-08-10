@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getServerSession } from "@/lib/get-session";
+import { Prisma } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
@@ -67,7 +68,7 @@ export async function GET(request: NextRequest) {
     const hasSession = cookieStore.has("better-auth.session_token");
     const session = hasSession ? await getServerSession() : null;
 
-    const where: any = {};
+    const where: Prisma.ReviewWhereInput = {};
     if (productId) where.productId = productId;
 
     const isAdmin = session?.user?.role === "ADMIN";

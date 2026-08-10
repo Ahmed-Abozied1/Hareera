@@ -21,21 +21,30 @@ interface OrdersFiltersProps {
   onReset: () => void
 }
 
-export function OrdersFilters({ filters, onFilterChange, onReset }: OrdersFiltersProps) {
-  const [isOpen, setIsOpen] = useState(false)
-
-  const FilterSection = ({ title, options, value, filterKey }: { 
-    title: string, 
-    options: { label: string, value: string }[], 
-    value: string, 
-    filterKey: keyof Filters 
-  }) => (
+/**
+ * برّه الكومبوننت عن قصد — لو اتعرّف جوّه، React بيعتبره نوع جديد كل رندر
+ * ويفكّه ويركّبه من الأول، فالراديو بيفقد الفوكس وبيعمل وميض.
+ */
+function FilterSection({
+  title,
+  options,
+  value,
+  filterKey,
+  onFilterChange,
+}: {
+  title: string
+  options: { label: string; value: string }[]
+  value: string
+  filterKey: keyof Filters
+  onFilterChange: OrdersFiltersProps["onFilterChange"]
+}) {
+  return (
     <div className="mb-6">
       <h4 className="text-title text-medium-bold md:heading-6-bold mb-4 text-right">{title}:</h4>
-      <RadioGroup 
-        value={value} 
-        onValueChange={(val) => onFilterChange(filterKey, val)} 
-        dir="rtl" 
+      <RadioGroup
+        value={value}
+        onValueChange={(val) => onFilterChange(filterKey, val)}
+        dir="rtl"
         className="space-y-2"
       >
         {options.map((option) => (
@@ -48,7 +57,11 @@ export function OrdersFilters({ filters, onFilterChange, onReset }: OrdersFilter
         ))}
       </RadioGroup>
     </div>
-  );
+  )
+}
+
+export function OrdersFilters({ filters, onFilterChange, onReset }: OrdersFiltersProps) {
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <div className="flex items-center gap-2 md:gap-4 flex-1">
@@ -62,9 +75,10 @@ export function OrdersFilters({ filters, onFilterChange, onReset }: OrdersFilter
         <PopoverContent align="start" dir="rtl" className="w-[320px] p-0 rounded-4 border-0 bg-bg overflow-hidden shadow-xl">
 <ScrollArea className="h-112.5 p-5">
   
-  <FilterSection 
-    title="الترتيب حسب" 
-    filterKey="sortBy" 
+  <FilterSection
+    onFilterChange={onFilterChange}
+    title="الترتيب حسب"
+    filterKey="sortBy"
     value={filters.sortBy || 'newest'} 
     options={[
       { label: "الكل", value: "all" },
@@ -76,6 +90,7 @@ export function OrdersFilters({ filters, onFilterChange, onReset }: OrdersFilter
   <hr className="border-border mb-6" />
 
   <FilterSection
+    onFilterChange={onFilterChange}
     title="الحالة"
     filterKey="status"
     value={filters.status || 'all'}

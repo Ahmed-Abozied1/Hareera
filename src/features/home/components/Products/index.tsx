@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { SectionHeader } from '@/components/common/SectionHeader'
 import { ProductsCarousel } from './ProductsCarousel'
 import { ProductsTabs } from './ProductsTabs'

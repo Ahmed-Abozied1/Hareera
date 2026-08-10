@@ -33,7 +33,7 @@ const handleSignOut = async () => {
     } else {
       toast.error("حدث خطأ أثناء تسجيل الخروج");
     }
-  } catch (error) {
+  } catch {
     toast.error("حدث خطأ أثناء تسجيل الخروج");
   }
 };

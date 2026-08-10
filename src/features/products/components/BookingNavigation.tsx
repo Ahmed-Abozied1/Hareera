@@ -8,8 +8,6 @@ interface BookingNavigationProps {
   handleNext: () => void;
   isDisabledNext: boolean;
   isSubmitting?: boolean;
-  hasParts?: boolean;
-  totalSteps?: number;
 }
 
 export const BookingNavigation = ({
@@ -18,10 +16,9 @@ export const BookingNavigation = ({
   handleNext,
   isDisabledNext,
   isSubmitting = false,
-  hasParts = true,
 }: BookingNavigationProps) => {
-  const isSecondStep = hasParts ? currentStep === 2 : currentStep === 2;
-  const isLastStep = hasParts ? currentStep === 3 : currentStep === 2;
+  // الخطوة التانية هي آخر خطوة في الفورم — بعدها بيتبعت الأوردر ويقفل المودال
+  const isConfirmStep = currentStep === 2;
 
   return (
     <div className="flex items-center justify-between gap-1 mt-8">
@@ -41,7 +38,7 @@ export const BookingNavigation = ({
         onClick={handleNext}
         className="w-fit"
       >
-        {isSecondStep ? "تأكيد الطلب" : isLastStep ? "إتمام الطلب" : "التالي"}
+        {isConfirmStep ? "تأكيد الطلب" : "التالي"}
       </AppButton>
     </div>
   );

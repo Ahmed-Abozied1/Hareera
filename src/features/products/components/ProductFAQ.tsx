@@ -1,11 +1,6 @@
 "use client";
 
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
 import { FAQItem } from "@/features/home/components/FAQ/FAQItem";
 import { FAQ_DATA } from "@/lib/constants";
 

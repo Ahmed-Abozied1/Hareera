@@ -12,7 +12,7 @@ export const useSocialAuth = () => {
         provider: "google",
         callbackURL: "/profile",
       });
-    } catch (error) {
+    } catch {
       toast.error("حدث خطأ غير متوقع");
     } finally {
       setIsLoading(false);

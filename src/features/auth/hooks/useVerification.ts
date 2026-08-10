@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useModalStore } from "@/store/useModalStore";
+import { modalText, useModalStore } from "@/store/useModalStore";
 import { toast } from "sonner";
 import { AuthService } from "../services/auth.service";
 import { getAuthErrorMessage } from "@/lib/auth-error";
@@ -15,7 +15,7 @@ export const useVerification = () => {
   const router = useRouter(); // optional but useful
 
   const verifyOTP = async (otp: string, email?: string) => {
-    const userEmail = email || data?.email;
+    const userEmail = email || modalText(data, "email");
 
     if (!userEmail) {
       setError("البريد الإلكتروني مفقود");

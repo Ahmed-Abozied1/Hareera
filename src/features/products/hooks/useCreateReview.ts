@@ -4,6 +4,7 @@ import { Review } from "../types/product.types";
 import { toast } from "sonner";
 import { useModalStore } from "@/store/useModalStore";
 import { useSession } from "@/features/auth/hooks/useAuth";
+import { getErrorMessage } from "@/lib/utils";
 
 export function useCreateReview(onSuccess?: () => void) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -50,11 +51,8 @@ export function useCreateReview(onSuccess?: () => void) {
       onSuccess?.();
 
       return result;
-    } catch (err: any) {
-      const errorMessage =
-        err?.response?.data?.message ||
-        err?.message ||
-        "فشل في إضافة التقييم";
+    } catch (err) {
+      const errorMessage = getErrorMessage(err, "فشل في إضافة التقييم");
 
       setError(errorMessage);
       toast.error(errorMessage);

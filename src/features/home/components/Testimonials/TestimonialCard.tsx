@@ -40,7 +40,7 @@ export const TestimonialCard = ({ rating, comment, name, image, user }: Testimon
         </div>
       </div>
       <p className="text-paragraph text-small-normal md:text-medium-normal flex-1">
-        " {comment} "
+        &quot; {comment} &quot;
       </p>
     </div>
   )

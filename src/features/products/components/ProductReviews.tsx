@@ -2,7 +2,7 @@
 
 import { Star, Loader2 } from "lucide-react";
 import { ReviewCard } from "./ReviewCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useModalStore } from "@/store/useModalStore";
@@ -37,11 +37,7 @@ export const ProductReviews = ({ productId }: ProductReviewsProps) => {
     distribution: { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 }
   });
 
-  useEffect(() => {
-    fetchReviews();
-  }, [productId]);
-
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     setLoading(true);
     try {
       const response = await fetch(`/api/reviews?productId=${productId}`);
@@ -69,7 +65,11 @@ export const ProductReviews = ({ productId }: ProductReviewsProps) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [productId]);
+
+  useEffect(() => {
+    fetchReviews();
+  }, [fetchReviews]);
 
   const handleReviewSubmitted = async () => {
     await refetchProduct();

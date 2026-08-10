@@ -10,7 +10,7 @@ interface ProfileHeaderProps {
 }
 
 export const ProfileHeader = ({ name }: ProfileHeaderProps) => {
-  const { isImageUpdating, handleImageUpload, handleImageDelete } = useProfile();
+  const { isImageUpdating, handleImageUpload } = useProfile();
   const { user, isLoading } = useProfileStore();
 
   const loading = isLoading || !user;
@@ -25,7 +25,6 @@ export const ProfileHeader = ({ name }: ProfileHeaderProps) => {
           userName={user?.name || name}
           isImageUpdating={isImageUpdating}
           onImageUpload={handleImageUpload}
-          onImageDelete={handleImageDelete}
         />
       )}
 

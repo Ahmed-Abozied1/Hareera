@@ -3,8 +3,11 @@
 import { useEffect, useState, useCallback } from "react";
 import { authClient } from "@/lib/auth-client";
 
+/** شكل الرد بتاع better-auth — بنشتقه من العميل نفسه بدل ما نكتبه بإيدنا. */
+type SessionResult = Awaited<ReturnType<typeof authClient.getSession>>;
+
 export const useSession = () => {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<SessionResult | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const refetch = useCallback(async () => {
@@ -13,7 +16,7 @@ export const useSession = () => {
       const res = await authClient.getSession();
       setData(res);
       return res;
-    } catch (error) {
+    } catch {
     } finally {
       setIsLoading(false);
     }

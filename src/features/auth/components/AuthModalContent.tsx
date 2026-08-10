@@ -26,7 +26,7 @@ export const AuthModalContent = () => {
 
             <Tabs
                 value={activeTab}
-                onValueChange={(val) => setView(val.toUpperCase() as any)}
+                onValueChange={(val) => setView(val.toUpperCase())}
                 className="w-full! flex flex-col! items-center!"
                 dir="rtl"
             >

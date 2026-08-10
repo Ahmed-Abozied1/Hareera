@@ -13,7 +13,7 @@ export const UserResetPassword = ({ token }: UserResetPasswordProps) => {
       title="إعادة تعيين كلمة المرور"
       subtitle="يرجى إدخال كلمة مرور جديدة لحسابك"
     >
-      <ResetPasswordForm role="USER" token={token} />
+      <ResetPasswordForm token={token} />
     </AuthLayout>
   );
 };

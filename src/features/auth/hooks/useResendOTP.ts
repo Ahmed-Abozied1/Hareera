@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useModalStore } from "@/store/useModalStore";
+import { modalText, useModalStore } from "@/store/useModalStore";
 import { toast } from "sonner";
 import { AuthService } from './../services/auth.service';
 
@@ -9,7 +9,7 @@ export const useResendOTP = () => {
 
   const resendOTP = async (email?: string) => {
     setIsResending(true);
-    const userEmail = email || data?.email;
+    const userEmail = email || modalText(data, "email");
 
     if (!userEmail) {
       toast.error("لم يتم العثور على البريد الإلكتروني");

@@ -1,5 +1,6 @@
 'use client';
 
+import type { ComponentType } from 'react';
 import { useModalStore } from '@/store/useModalStore';
 import { AuthModalContent } from '@/features/auth/components/AuthModalContent';
 import { UserForgotPassword } from '@/features/auth/components/user/UserForgotPassword';
@@ -43,7 +44,10 @@ export const GlobalModalContainer = () => {
 
   if (!isOpen || !view) return null;
 
-  const Component = viewMap[view as ViewKey] as any;
+  // كل مودال بيستقبل data بشكل مختلف، فبنوحّدهم على توقيع واحد هنا
+  const Component = viewMap[view as ViewKey] as ComponentType<{
+    data: unknown;
+  }>;
   
   const getModalClasses = () => {
     if (view === "ADMIN_PRODUCT_DELETE")

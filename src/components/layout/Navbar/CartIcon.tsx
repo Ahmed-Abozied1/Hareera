@@ -1,15 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { ShoppingCart } from "@/components/ui/icons/ShoppingCart";
+import { useIsClient } from "@/hooks/useIsClient";
 import { useCartStore } from "@/store/useCartStore";
 
 export const CartIcon = () => {
-  const [mounted, setMounted] = useState(false);
+  // العدد جاي من localStorage، فمابنعرضهوش غير بعد الـ hydration
+  const mounted = useIsClient();
   const openCart = useCartStore((s) => s.openCart);
   const count = useCartStore((s) => s.items.reduce((sum, i) => sum + i.quantity, 0));
-
-  useEffect(() => setMounted(true), []);
 
   return (
     <button

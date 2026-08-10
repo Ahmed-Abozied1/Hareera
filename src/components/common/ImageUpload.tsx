@@ -9,7 +9,6 @@ import { toast } from "sonner";
 interface ImageUploadProps {
   currentImage?: string | null;
   onImageUpload: (url: string) => Promise<void>;
-  onImageDelete: () => Promise<void>;
   userInitial: string;
   isLoading: boolean;
 }
@@ -17,14 +16,13 @@ interface ImageUploadProps {
 export const ImageUpload = ({
   currentImage,
   onImageUpload,
-  onImageDelete,
   userInitial,
   isLoading,
 }: ImageUploadProps) => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  const handleUploadComplete = async (res: any) => {
+  const handleUploadComplete = async (res: { url?: string }[]) => {
     const url = res?.[0]?.url;
     if (url) {
       await onImageUpload(url);

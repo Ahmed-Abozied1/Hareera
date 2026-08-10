@@ -1,14 +1,13 @@
 // features/auth/components/RegisterForm.tsx
 "use client";
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormInput } from "@/components/common/FormInput";
 import { FormCheckbox } from "@/components/common/FormCheckbox";
 import { FormPasswordInput } from "@/components/common/FormPasswordInput";
 import { AppButton } from "@/components/common/AppButton";
-import { Label } from "@/components/ui/label";
 
 import { useModalStore } from "@/store/useModalStore";
 import { useRegister } from "../hooks/useRegister";

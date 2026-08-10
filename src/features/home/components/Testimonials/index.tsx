@@ -3,11 +3,12 @@
 import { SectionHeader } from '@/components/common/SectionHeader'
 import { TestimonialsCarousel } from './TestimonialsCarousel'
 import { ErrorMessage } from '@/components/common/ErrorMessage'
+import { Testimonial } from '../../types'
 
 interface TestimonialsProps {
-  testimonials: any[]
+  testimonials: Testimonial[]
   loading: boolean
-  error: any
+  error: unknown
   refetch: () => void
 }
 
@@ -25,7 +26,7 @@ export function Testimonials({ testimonials, loading, error, refetch }: Testimon
       />
 
       <div className="relative mt-8 md:mt-12">
-        {error && (
+        {!!error && (
           <ErrorMessage
             message="عذرًا، حدث خطأ أثناء جلب البيانات."
             onRetry={refetch}

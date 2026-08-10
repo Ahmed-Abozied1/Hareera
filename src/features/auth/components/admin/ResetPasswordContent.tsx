@@ -6,7 +6,7 @@ export const ResetPasswordContent = ({ token }: { token?: string }) => {
         <AdminAuthLayout
             title="إعادة تعيين كلمة المرور"
             description="يرجى إدخال كلمة مرور جديدة لحسابك." >
-            <ResetPasswordForm token={token} role="ADMIN" />
+            <ResetPasswordForm token={token} />
         </AdminAuthLayout>
     );
 };
