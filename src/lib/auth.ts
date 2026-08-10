@@ -7,6 +7,25 @@ import { sendEmail } from "./email";
 import { emailOTP } from "better-auth/plugins";
 
 export const auth = betterAuth({
+  // better-auth بيشغّل حد 100 طلب/دقيقة لكل IP في الإنتاج تلقائيًا، وده واسع
+  // جدًا لصفحة دخول. القواعد دي بتضيّق الأبواب اللي بتتجرّب فيها كلمات السر.
+  // التخزين في الذاكرة (الافتراضي) — على Vercel كل instance ليه عدّاده، فده
+  // بيبطّأ التخمين مش بيمنعه بالظبط؛ الدقة الكاملة عايزة storage: "database"
+  // وجدول rateLimit في السكيما.
+  rateLimit: {
+    enabled: true,
+    window: 60,
+    max: 100,
+    customRules: {
+      "/sign-in/email": { window: 300, max: 5 },
+      "/sign-in/email-otp": { window: 300, max: 5 },
+      "/sign-up/email": { window: 3600, max: 5 },
+      "/forget-password": { window: 900, max: 3 },
+      "/reset-password": { window: 900, max: 5 },
+      "/email-otp/send-verification-otp": { window: 900, max: 3 },
+    },
+  },
+
   session: {
     expiresIn: 60 * 60 * 24 * 30,   // 30 يوم
     updateAge: 60 * 60 * 24,         // يجدد الـ session كل يوم تلقائي

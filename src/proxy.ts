@@ -35,14 +35,9 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 2. إذا كان المستخدم ADMIN ويحاول فتح الصفحة الرئيسية '/'
-  if (pathname === '/') {
-    if (isAdmin) {
-      return NextResponse.redirect(new URL('/admin', request.url));
-    }
-  }
-
-  // 3. حماية باقي مسارات الأدمن
+  // 2. حماية باقي مسارات الأدمن
+  // ملاحظة: الأدمن مبيتحوّلش من الصفحة الرئيسية للوحة — لازم يقدر يتصفح
+  // المتجر زي ما الزبونة بتشوفه من غير ما يسجل خروج.
   if (pathname.startsWith('/admin')) {
     if (!isAdmin) {
       return NextResponse.redirect(new URL('/admin/login', request.url));
@@ -52,7 +47,6 @@ export async function proxy(request: NextRequest) {
   return NextResponse.next();
 }
 
-// الـ config يبقى كما هو لتحديد المسارات المستهدفة
 export const config = {
-  matcher: ['/', '/admin/:path*'],
+  matcher: ['/admin/:path*'],
 };
