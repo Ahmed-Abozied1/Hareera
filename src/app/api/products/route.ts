@@ -73,9 +73,12 @@ export async function GET(request: NextRequest) {
       },
       {
         headers: {
+          // max-age=0 يخلي متصفح الزبونة يتأكد كل مرة (رد سريع من الـ CDN)،
+          // وs-maxage=30 بيخلي الـ CDN يخزّن نص دقيقة بس. يعني أي منتج
+          // تضيفه أو تمسحه يوصل للزباين في أقل من دقيقة بدل ٦ دقايق.
           "Cache-Control": fresh
             ? "no-store"
-            : "public, max-age=60, stale-while-revalidate=300",
+            : "public, max-age=0, s-maxage=30, stale-while-revalidate=30",
         },
       }
     );

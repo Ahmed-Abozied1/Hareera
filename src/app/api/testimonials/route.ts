@@ -34,7 +34,9 @@ export async function GET() {
     }));
 
     return NextResponse.json(formattedTestimonials, {
-      headers: { "Cache-Control": "public, max-age=60, stale-while-revalidate=300" },
+      headers: {
+        "Cache-Control": "public, max-age=0, s-maxage=30, stale-while-revalidate=30",
+      },
     });
   } catch {
     return NextResponse.json({ error: "Failed to fetch testimonials" }, { status: 500 });
