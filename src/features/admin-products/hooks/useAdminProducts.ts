@@ -16,6 +16,8 @@ export function useAdminProducts() {
       const params = new URLSearchParams({
         page: page.toString(),
         limit: itemsPerPage.toString(),
+        // بيخلي المسار يرد بـ no-store فمايتخزنش على CDN
+        fresh: "1",
       });
 
       // المسار ده بيرد بـ Cache-Control فيه max-age للمتجر، فمن غير no-store

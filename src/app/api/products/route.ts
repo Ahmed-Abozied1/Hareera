@@ -13,6 +13,11 @@ export async function GET(request: NextRequest) {
     const category = searchParams.get("category");
     const search = searchParams.get("search") || "";
     const sortBy = searchParams.get("sortBy") || "newest";
+    // لوحة التحكم بتبعت fresh=1. الهيدر العادي public، يعني CDN بتاع Vercel
+    // بيخزّن الرد ويرجّعه من غير ما يسأل السيرفر — فالأدمن كان بيشوف منتج
+    // محذوف لحد ٦ دقايق. الرابط بالبارامتر ده مفتاح كاش مختلف، وno-store
+    // بيمنع تخزينه من أصله.
+    const fresh = searchParams.get("fresh") === "1";
 
     const where: Record<string, unknown> = {};
 
@@ -66,7 +71,13 @@ export async function GET(request: NextRequest) {
         data: products,
         pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
       },
-      { headers: { "Cache-Control": "public, max-age=60, stale-while-revalidate=300" } }
+      {
+        headers: {
+          "Cache-Control": fresh
+            ? "no-store"
+            : "public, max-age=60, stale-while-revalidate=300",
+        },
+      }
     );
   } catch {
     return NextResponse.json(
