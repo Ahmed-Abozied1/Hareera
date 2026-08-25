@@ -33,7 +33,9 @@ export function useAdminReviews() {
         params.append("approvalStatus", approvalStatus);
       }
 
-      const response = await fetch(`/api/admin/reviews?${params}`);
+      const response = await fetch(`/api/admin/reviews?${params}`, {
+        cache: "no-store",
+      });
       const data = await response.json();
 
       setReviews(data.reviews || []);

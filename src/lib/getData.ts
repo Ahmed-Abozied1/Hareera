@@ -1,11 +1,19 @@
 import { getAppUrl } from './app-url';
 
-export async function getData<T>(endpoint: string): Promise<T> {
+/**
+ * @param fresh لقوايم لوحة التحكم. مسارات الـ API بتبعت Cache-Control فيه
+ * max-age، فمن غيرها المتصفح بيرجّع نسخته المحفوظة بعد أي حذف أو تعديل
+ * والقايمة تبان كأنها ماتغيرتش. المتجر بيستفيد من الكاش، الأدمن لأ.
+ */
+export async function getData<T>(endpoint: string, fresh = false): Promise<T> {
   // على السيرفر لازم عنوان كامل؛ في المتصفح الأوريجن الحالي بيكفي.
   const baseUrl = typeof window === 'undefined' ? getAppUrl() : '';
 
   try {
-    const response = await fetch(`${baseUrl}/api/${endpoint}`);
+    const response = await fetch(
+      `${baseUrl}/api/${endpoint}`,
+      fresh ? { cache: 'no-store' } : undefined
+    );
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({

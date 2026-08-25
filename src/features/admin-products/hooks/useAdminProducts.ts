@@ -18,7 +18,12 @@ export function useAdminProducts() {
         limit: itemsPerPage.toString(),
       });
 
-      const response = await fetch(`/api/products?${params}`);
+      // المسار ده بيرد بـ Cache-Control فيه max-age للمتجر، فمن غير no-store
+      // المتصفح بيرجّع نسخته المحفوظة بعد الحذف أو الإضافة والقايمة تبان
+      // كأنها ماتغيرتش. الأدمن لازم يشوف الحقيقة على طول.
+      const response = await fetch(`/api/products?${params}`, {
+        cache: "no-store",
+      });
       const data = await response.json();
 
       const normalized: Product[] = (data.data || []).map((product: Product) => ({
@@ -52,6 +57,15 @@ export function useAdminProducts() {
 
   const refetch = useCallback(() => fetchProducts(currentPage), [fetchProducts, currentPage]);
 
+  /**
+   * يشيل الصف من القايمة على طول بعد ما السيرفر يأكد الحذف، من غير ما نستنى
+   * طلب جديد. كده الحذف بيبان فورًا مهما كان في كاش في النص.
+   */
+  const removeProduct = useCallback((id: string) => {
+    setProducts((prev) => prev.filter((product) => product.id !== id));
+    setSelectedRows((prev) => prev.filter((rowId) => rowId !== id));
+  }, []);
+
   return {
     products,
     isLoading,
@@ -63,5 +77,6 @@ export function useAdminProducts() {
     handleSelectAll,
     handleSelectRow,
     refetch,
+    removeProduct,
   };
 }

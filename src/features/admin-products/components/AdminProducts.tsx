@@ -11,10 +11,27 @@ import { SkeletonTable } from "@/components/common/SkeletonTable";
 import { AppButton } from "@/components/common/AppButton";
 
 export default function AdminProducts() {
-  const { products, isLoading, currentPage, totalPages, setCurrentPage, refetch, itemsPerPage } =
-    useAdminProducts();
+  const {
+    products,
+    isLoading,
+    currentPage,
+    totalPages,
+    setCurrentPage,
+    refetch,
+    removeProduct,
+    itemsPerPage,
+  } = useAdminProducts();
 
   const open = useModalStore((s) => s.open);
+
+  // الصف يختفي على طول، وبعدين نجيب القايمة من السيرفر عشان الترقيم والعدد
+  const handleDeleteSuccess = useCallback(
+    (productId: string) => {
+      removeProduct(productId);
+      refetch();
+    },
+    [removeProduct, refetch]
+  );
 
   const handleAddProduct = useCallback(
     () => open("ADMIN_PRODUCT_CREATE", { onSuccess: refetch }),
@@ -54,7 +71,7 @@ export default function AdminProducts() {
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
             onEdit={handleEdit}
-            onDeleteSuccess={refetch}
+            onDeleteSuccess={handleDeleteSuccess}
           />
         )}
 

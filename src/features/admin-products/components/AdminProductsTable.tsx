@@ -18,7 +18,7 @@ interface Props {
   currentPage: number;
   itemsPerPage: number;
   onEdit: (product: Product) => void;
-  onDeleteSuccess: () => void;
+  onDeleteSuccess: (productId: string) => void;
 }
 
 export function AdminProductsTable({
@@ -34,7 +34,7 @@ export function AdminProductsTable({
     open("ADMIN_PRODUCT_DELETE", {
       productId: product.id,
       productName: product.name,
-      onSuccess: onDeleteSuccess,
+      onSuccess: () => onDeleteSuccess(product.id),
     });
   };
 

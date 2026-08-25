@@ -11,7 +11,7 @@ export const ordersService = {
     archived = false
   ): Promise<PaginatedOrders> {
     const query = `orders?page=${page}&limit=${limit}&searchTerm=${searchTerm}&status=${status}&sortBy=${sortBy}&archived=${archived}`
-    return await getData<PaginatedOrders>(query)
+    return await getData<PaginatedOrders>(query, true)
   },
 
   async updateStatus(id: string, status: string): Promise<Order> {

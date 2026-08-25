@@ -11,7 +11,7 @@ export const accountsService = {
     sortBy = 'newest'
   ): Promise<PaginatedUsers> {
     const query = `users?page=${page}&limit=${limit}&searchTerm=${searchTerm}&role=${role}&status=${status}&sortBy=${sortBy}`
-    return await getData<PaginatedUsers>(query)
+    return await getData<PaginatedUsers>(query, true)
   },
 
   async fetchAllUsers(
@@ -21,7 +21,7 @@ export const accountsService = {
     sortBy = 'newest'
   ): Promise<User[]> {
     const query = `users?getAll=true&searchTerm=${searchTerm}&role=${role}&status=${status}&sortBy=${sortBy}`
-    const response = await getData<{ users: User[] }>(query)
+    const response = await getData<{ users: User[] }>(query, true)
     return response.users
   },
 
